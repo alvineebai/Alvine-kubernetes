@@ -10,7 +10,7 @@ To run a pod in the cluster, you can use either a manifest or the `kubectl run` 
 #### Using the manifest 
 
 1- Create a a simple pod running the httpd image.
-- Create a yaml file called `simple-pod.yaml`. Its content should look like the following
+- Create a yaml file called `01-simple-pod.yaml`. Its content should look like the following
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -23,7 +23,7 @@ spec:
 ```
 - Create the pod in the cluster with the command:
 ```bash
-kubectl create -f simple-pod.yaml
+kubectl create -f 01-simple-pod.yaml
 ```
 - List and describe pods
 ```bash
@@ -76,8 +76,11 @@ kubectl get pods
 kubectl delete pod utrains -n dev
 ```
 
-6- Create a pod in a specific namespace exposing a port (80) using TCP protocol
-Check the `pod-with-port.yaml` manifest
+6- Create a pod in a specific namespace
+Check `02-pod-namespace.yaml`
+
+7- Create a pod in a specific namespace exposing a port (80) using TCP protocol
+Check the `03-pod-with-port.yaml` manifest
 
 ### Pods Quality of Service (QoS)
 When Kubernetes creates a Pod, it assigns a QoS class to the pod based on the resource (CPU, memory) requests and limits defined in that pod. There are 3 QoS classes
@@ -85,13 +88,13 @@ When Kubernetes creates a Pod, it assigns a QoS class to the pod based on the re
 - Burstable: resources requests < resources limits
 - Guaranteed: resources requests = resources limits
 
-Example: Check the `pod-qos-besteffort.yaml`, `pod-qos-burstable.yaml` and `pod-qos-guaranteed.yaml`
+Example: Check the `04-pod-qos-besteffort.yaml`, `05-pod-qos-burstable.yaml` and `06-pod-qos-guaranteed.yaml`
 
 ### Pods priorities (optional)
 When creating pods, kubernetes also assign levels of priorities. By default, all the pods you create have the priority of 0 when no priority class is specified.
 We have 3 levels of priorities: Critical, higher priority, lower priority. To use priorities, we need to define PriorityClasses and assign them to pods
 
-Example: Check the `pod-priotity-class.yaml` and `pod-with-priority.yaml`
+Example: Check the `07-pod-priotity-class.yaml` and `08-pod-with-priority.yaml`
 
 ### Pods Probes (health checks)
 A Probe is like a diagnostic that is periodically performed by the Kubelet on the containers of a Pod. The result of these checks can be Success, Failure or Unknown. There are 3 types of probes in K8s:
@@ -99,4 +102,4 @@ A Probe is like a diagnostic that is periodically performed by the Kubelet on th
 - ReadinessProbe: indicates whether the container is ready to respond to requests or not.  
 - StartupProbe: indicates when a container application has started. This is very useful for slow starting containers.
 
-Example: Check the `pod-liveness-probe.yaml`, `pod-readiness-probe.yaml`, `pod-startup-probe.yaml`
+Example: Check the `09-pod-liveness-probe.yaml`, `10-pod-readiness-probe.yaml`, `11-pod-startup-probe.yaml`

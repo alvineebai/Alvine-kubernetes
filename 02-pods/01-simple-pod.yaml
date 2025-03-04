@@ -12,10 +12,10 @@ spec:
 # This pod will be created in the default namespace since no namespace was specified
 #
 # create the file for the pod
-# vi simple-pod.yaml
+# vi 01-simple-pod.yaml
 #
 # deploy the pod in the cluster
-# kubectl create -f simple-pod.yaml
+# kubectl create -f 01-simple-pod.yaml
 #
 # verify
 # kubectl get pods

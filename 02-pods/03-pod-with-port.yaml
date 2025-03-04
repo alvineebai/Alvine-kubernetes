@@ -17,7 +17,7 @@ spec:
           protocol: TCP
 #
 # Here we run a pod in a specific namespace exposing a port (80) using TCP protocol
-# kubectl create -f pod-with-port.yaml
+# kubectl create -f 02-pod-with-port.yaml
 # kubectl get pods -n dev
 # kubectl describe pod utrains -n dev
 # kubectl delete pod utrains -n dev
