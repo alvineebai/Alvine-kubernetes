@@ -1,0 +1,20 @@
+- Why do we nee kubernetes? what problem does it solve?
+- So, what have you done with Kubernetes?
+- Was your Kubernetes experience ON-prem or managed Kubernetes
+- What version of kubernetes did you used
+- What size of cluster are you using for your environments?
+- How did you manage the databases for your applications running in the cluster?
+- There are many way to setup ingress in a cluster, what way did you use?
+
+- How do you troubleshoot a crashing container
+- Did you ever had issues with pods stopping?
+- How do you manage scaling in kubernetes
+- How was security set up in your k8s clusters?
+- What are some best practices you have used in securing a Kubernetes cluster?
+- What was the hardest production issue you faced when using kubernetes?
+- What is the function of the `kubectl explain pod --recursive` command?
+- How do you configure certificates in your cluster? Example SSL certificates
+- What is the function of the command `kubectl api-resources`?
+- When should you use daemonsets instead of deployments? specify 2 use cases of daemonsets
+- How do you update a ConfigMap, and what happens to the Pods using it?
+- What are the problems you recently faced while maintaining your kubernetes cluster and how did you resolve them?
