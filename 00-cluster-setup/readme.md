@@ -1,13 +1,13 @@
 # Kubernetes Labs:
 ## Cluster setup
 
-- Install and configure Minikube: (Offical documentation link)[https://minikube.sigs.k8s.io/docs/start/]
-- Install and configure kind: (Offical documentation link)[https://kind.sigs.k8s.io/docs/user/quick-start/#installation]
-- Use Killercoda kubernetes playgrounds: (Link here)[https://killercoda.com/]
-- Install and configure a 3 nodes self-managed cluster with kubeadm: (Official documentation link)[https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/]
-- Create EKS cluster via AWS console: (Link here)[https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html#step2-console]
-- Create EKS cluster via eksctl
-- Automate EKS cluster creation using terraform
+- Install and configure Minikube: [Offical documentation link](https://minikube.sigs.k8s.io/docs/start/)
+- Install and configure kind: [Offical documentation link](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+- Use Killercoda kubernetes playgrounds: [Link here](https://killercoda.com/)
+- Install and configure a 3 nodes self-managed cluster with kubeadm: [Official documentation link](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+- Create EKS cluster via AWS console: [Link here](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html#step2-console)
+- Create EKS cluster via eksctl (In this document)
+- Automate EKS cluster creation using terraform [Link to the repo](https://github.com/utrains/provision-eks-cluster-with-terraform.git)
 
 ## Create EKS cluster via eksctl
 
@@ -25,7 +25,7 @@ aws configure
 - kubectl: The Kubernetes command-line tool (kubectl) should be installed. You can install it following the instructions here.
 
 ### Install eksctl
-Refer to the following documentation to install eksctl on your system: (Link here)[https://eksctl.io/installation/]
+Refer to the following documentation to install eksctl on your system: [Link here](https://eksctl.io/installation/)
 
 ### Create the cluster
 Use the following command to create a cluster:
