@@ -22,15 +22,17 @@ metadata:
 ```
 
 Create the namespace in the cluster using the command:
-`kubectl create -f namespace.yaml`
+`kubectl create -f namespace.yaml` or `kubectl apply -f namespace.yaml`
 
 You can verify with
-`kubectl get namespace`
-`kubectl get ns`
+```bash
+kubectl get namespace
+kubectl get ns
+```
 
 You can describe the namespace with:
 ```bash
 kubectl describe ns dev
 ```
 
-
+To delete the namespace, run the command `kubectl delete ns <name>`

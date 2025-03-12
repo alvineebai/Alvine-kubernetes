@@ -105,4 +105,4 @@ Steps to get started with HPA
 - Reduce the load (the HPA should scale down the pods)
 - Clean up (optional)
 
-NB: you can also use the `kubectl autoscale` command to autoscale a deployment whhen the HPA is enabled in your cluster.
+NB: you can also use the `kubectl autoscale` command to autoscale a deployment when the HPA is enabled in your cluster.

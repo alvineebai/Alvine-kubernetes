@@ -54,7 +54,7 @@ eksctl delete cluster --name my-cluster --region us-east-1
 ## Basic commands
 | **Command**                                      | **Description**                                                                 |
 |--------------------------------------------------|---------------------------------------------------------------------------------|
-| `kubectl cluster-info`                           | Get details about the cluster (API server, components, etc.).                   |
+| `kubectl cluster-info dump`                       | Get details about the cluster (API server, components, etc.).                   |
 | `kubectl config view`                            | view the Kubeconfig file                   |
 | `kubectl get nodes`                              | List all nodes in the Kubernetes cluster.                                       |
 | `kubectl get nodes -o wide`                      | Show more details on node                                  |
