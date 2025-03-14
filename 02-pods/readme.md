@@ -1,26 +1,16 @@
 ## The Pod in Kubernetes
 ### Definition
-A pod is the smallest and simplest Kubernetes object (Smallest or atomic unit in K8s) and can contain one or more containers. Each pod has its own IP address for communication. Containers in the pod share the pod IP address and namespace
+A pod is the smallest and simplest Kubernetes object (Smallest or atomic unit in K8s) and can contain one or more containers. Each pod has its own IP address for communication. Containers in the pod share the pod IP address and namespace.
 
-Limitations: Pods are ephemeral ie they can die and be replaced easily
+Limitations: Pods are ephemeral ie they can die and be replaced easily.
 
 ### Running a Pod
-To run a pod in the cluster, you can use either a manifest or the `kubectl run` command with parameters
+To run a pod in the cluster, you can use either a manifest or the use `kubectl run` command with parameters.
 
 #### Using the manifest 
 
 1- Create a a simple pod running the httpd image.
-- Create a yaml file called `01-simple-pod.yaml`. Its content should look like the following
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
- name: utrains
-spec:
- containers:
-   - name: utrains-app
-     image: httpd
-```
+- Create a yaml file called `01-simple-pod.yaml`. Its content should look like the following (check the pod)
 - Create the pod in the cluster with the command:
 ```bash
 kubectl create -f 01-simple-pod.yaml
@@ -50,7 +40,7 @@ kubectl edit pod app2
 # modify the image name to nginx
 kubectl get pods
 ```
-2- Get the logs of a pod
+2- Get the logs of a pod (this is useful for troubleshooting when a pod has issues)
 ```bash 
 kubectl logs app1
 kubectl logs app2
@@ -67,7 +57,7 @@ kubectl delete pod utrains
 kubectl run nginx2 --image=nginx --dry-run=client -o yaml > pod.yaml
 cat pod.yaml
 ```
-5- create a pod in a specific namespace. check the pod-namespace.yaml manifest.
+5- create a pod in a specific namespace. check the `02-pod-namespace.yaml` manifest. 
 ```bash
 kubectl create ns dev
 kubectl create -f pod-namespace.yaml
@@ -76,10 +66,7 @@ kubectl get pods
 kubectl delete pod utrains -n dev
 ```
 
-6- Create a pod in a specific namespace
-Check `02-pod-namespace.yaml`
-
-7- Create a pod in a specific namespace exposing a port (80) using TCP protocol
+6- Create a pod in a specific namespace exposing a port (80) using TCP protocol
 Check the `03-pod-with-port.yaml` manifest
 
 ### Pods Quality of Service (QoS)

@@ -8,7 +8,7 @@ To define a replicaset, you must specify:
 
 Example: Create a replicaset running 3 replicas of pods using the httpd image
 ```bash
-# Create the replicatset 
+# Create the replicatset. Check the corresponding file in this folder 
 kubectl create -f replicaset-for-pods.yaml
 # Check the pods
 kubectl get pods

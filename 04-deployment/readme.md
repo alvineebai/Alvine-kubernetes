@@ -1,8 +1,8 @@
 ## The Deployment
 
-A deployment is a higher level object that creates and manages ReplicaSets which then ensures that the desired number of pods are running. More than a simple replicaset, the deployment allows you to handle rolling updates, rollbacks and version management of applications.
+A deployment is a higher level object that creates and manages ReplicaSets which then ensures that the desired number of pods are running. More than a simple replicaset, the deployment allows you to handle **rolling updates (rollout), rollbacks and version management** of applications.
 
-Example: Create a deployment that will run three Nginx pods, each listening on port 80.
+**Example:** Create a deployment that will run three Nginx pods, each listening on port 80.
 1- Create and verify the deployment
 ```bash
 # create and apply the manifest
@@ -17,8 +17,8 @@ kubectl describe deployment nginx-deployment
 # delete a pod and verify it is replaces
 kubectl delete pod <pod-name>
 kubectl get pods -o wide
-
 ```
+
 2- Update the deployment
 - Update the nginx image from 1.14.2 to 1.16.1
 Let's update the nginx Pods to use the nginx:1.16.1 image instead of the nginx:1.14.2 image

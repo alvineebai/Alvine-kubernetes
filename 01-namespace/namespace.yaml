@@ -7,3 +7,4 @@ metadata:
 # kubectl create -f namespace.yaml
 # kubectl get namespace
 # kubectl get ns
+# kubectl delete ns dev
