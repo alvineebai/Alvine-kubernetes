@@ -14,9 +14,9 @@ For DevOps engineers, Redis is a powerful tool that helps improve performance, s
 By deploying a Redis master-follower setup, you ensure data redundancy and load balancing, making your system more efficient and resilient.
 
 ### Architecture Overview
-Redis Master: Handles write operations and replicates data to followers.
-Redis Follower: Reads data replicated from the master and handles read operations.
-Frontend Application: A simple web interface that interacts with Redis (reads from the follower, writes to the master).
+**Redis Master:** Handles write operations and replicates data to followers.
+**Redis Follower:** Reads data replicated from the master and handles read operations.
+**Frontend Application:** A simple web interface that interacts with Redis (reads from the follower, writes to the master).
 
 ### Objective
 - Start up a Redis leader.
@@ -26,10 +26,10 @@ Frontend Application: A simple web interface that interacts with Redis (reads fr
 - Clean up
 
 ### Lab Steps
-#### Deploy Redis Master
+#### Deploy Redis leader
 
-Create a Redis master deployment and service.
-Expose the master service for follower replication and frontend access.
+Create and apply a Redis leader deployment 
+Create and apply the Redis leader service to expose the master service for follower replication and frontend access.
 
 #### Deploy Redis Follower
 
@@ -41,10 +41,16 @@ Connect the follower pods to the master using replication settings.
 Create a simple web application that connects to Redis.
 The app will send write requests to the master and read requests to the follower.
 
+Create and apply the frontend deployment and service
+
 #### Test the Deployment
 
 Access the frontend application and interact with Redis.
 Verify replication by checking if writes to the master appear in the follower.
+
+Scale the frontend deployment
+
+### Clean up
 
 ### Expected Outcome
 By the end of this lab, you will have a functional Redis replication setup with a frontend interacting with it. This setup is commonly used to improve scalability and performance in real-world applications.
