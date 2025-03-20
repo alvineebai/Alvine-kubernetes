@@ -55,13 +55,18 @@ Smallest unit in K8s, holds one or more containers.
     - Azure AKS – Kubernetes on Microsoft Azure.
     - Oracle OKE - Kubernetes on Oracle
     - LKE - Kubernetes on Linode
+    - ...
 
 #### 3. Enterprise Kubernetes (K8s distributions)
     - Openshift – Red Hat’s enterprise Kubernetes with extra features.
     - Rancher – Multi-cluster Kubernetes management.
     - Tanzu - vSphere Tanzu Kubernetes Grid (TKG)
+    - ...
 
 ## Interacting with cluster
-- **Command Line Interface (CLI)**: using kubectl commands
-- **User Interface (UI)**: using the native K8s Dashboard or tools like Lens
+- **Command Line Interface (CLI)**: using `kubectl` commands
+- **User Interface (UI)**: using the native **K8s Dashboard** or tools like **Lens**
 - **Kubernetes API**: Using programmatical access (ex. with python scripts, terraform codes etc.)
+
+## How to use this repo
+The repo is organized and ordered for you to practice the concepts progressively.

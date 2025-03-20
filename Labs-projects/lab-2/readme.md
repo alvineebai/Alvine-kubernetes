@@ -7,6 +7,7 @@ Note: This is not a production ready app. This is just for practice
 
 #### Method 1: We created all the objects in one yaml file `wordpress.yaml` 
 This is not recommended. This is just to show you that it is possible.
+**Note:** If you are in a EKS cluster, modify the worpress service in the yaml file to the type **Loadbalancer** before applying it.
 
 ```bash
 kubectl create -f wordpress-mysql.yaml
@@ -54,3 +55,6 @@ kubectl apply -f 05-wordpress-service.yaml
 Verify and test the app just like iin the first method
 
 Clean up to delete all the resources created 
+
+## Expected result
+![wordpress](wordpress.png)

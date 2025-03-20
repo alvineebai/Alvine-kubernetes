@@ -77,6 +77,10 @@ load the page http://localhost:8080 in your browser to view your guestbook
 - **If you used the LoadBalancer service for frontend** 
 Copy the external IP address on your frontend service, and load the page in your browser to view your guestbook.
 
+- **If your cluster is in EKS**
+Use the Loadbalancer DNS name under the EXTERNAL-IP column: http://<Lb-dns>
+Note: Remember to make sure the load balancer is delete when destroying your cluster after practice.
+
 
 #### Scale the frontend deployment
 ```bash
@@ -100,3 +104,4 @@ kubectl delete service frontend
 ### Expected Outcome
 By the end of this lab, you will have a functional Redis replication setup with a frontend interacting with it. This setup is commonly used to improve scalability and performance in real-world applications.
 
+![guestbook app](guestbook.png)

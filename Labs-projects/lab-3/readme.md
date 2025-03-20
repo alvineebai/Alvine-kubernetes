@@ -13,7 +13,8 @@ Note: This lab can be done on Minikube as well
 
 Note: The cluster used here was 
 
-To be able to create persistent volumes for our apps, we need to make sure dynamic provisioning is enabled. 
+To be able to create persistent volumes for our apps, we need to make sure dynamic provisioning is enabled.
+Check the folder on persistent volumes to do that.(11-persistent-storage) 
 
 ## Create and apply the YAML files
 ```bash

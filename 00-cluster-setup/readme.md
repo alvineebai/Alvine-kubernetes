@@ -1,5 +1,4 @@
-# Kubernetes Labs:
-## Cluster setup
+## Cluster setup solutions available
 
 - Install and configure Minikube: [Offical documentation link](https://minikube.sigs.k8s.io/docs/start/)
 - Install and configure kind: [Offical documentation link](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
@@ -44,14 +43,8 @@ Verify that you can access the cluster
 ```bash
 kubectl get nodes
 ```
-### Delete the EKS Cluster
 
-When done, always delete resources to avoid further charges 
-```bash
-eksctl delete cluster --name my-cluster --region us-east-1
-```
-
-## Basic commands
+### Basic commands
 | **Command**                                      | **Description**                                                                 |
 |--------------------------------------------------|---------------------------------------------------------------------------------|
 | `kubectl cluster-info dump`                      | Get details about the cluster (API server, components, etc.).                   |
@@ -64,4 +57,9 @@ eksctl delete cluster --name my-cluster --region us-east-1
 | `kubectl get services`                           | List all services in the defaut namespace                                            |
 | `kubectl proxy`                                  | Access the Kubernetes cluster dashboard (if set up).                            |
 
+### Delete the EKS Cluster
 
+When done with practice, always delete resources to avoid further charges in the cloud 
+```bash
+eksctl delete cluster --name my-cluster --region us-east-1
+```
