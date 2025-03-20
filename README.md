@@ -35,38 +35,42 @@ Smallest unit in K8s, holds one or more containers.
 - **Resource Optimization** – Ensures best use of CPU, memory, and storage (automatic bin packing)
 - **production Support**– Can be used for production environments
 
-## K8s cluster setup
-### For learning and local dev or testing
-- **Minikube** – Runs a single-node K8s cluster on your laptop.
-- **Kind (Kubernetes in Docker)** – Uses Docker to run lightweight K8s clusters.
+## K8s cluster setup methods
+**Note:** In this class, we will use kubernetes playgrounds on Killercoda for testing and deploy our production cluster in AWS EKS. The following are just for more information on various methods available.
+
+### For learning and local development/testing
+- **Minikube** – Runs a single-node K8s cluster on your laptop. You can check the [official documentation](https://minikube.sigs.k8s.io/docs/) for minikube just to get more information.
+- **Kind (Kubernetes in Docker)** – Uses Docker to run lightweight K8s clusters. 
 - **K3s** – A lightweight Kubernetes distribution for low-resource systems.
 - **MicroK8s** – A lightweight K8s version from Canonical.
+- **Killercoda playgroungs for Kubernetes**: Killercoda is a platform where you get instant access to a real Linux or Kubernetes environment ready to use. **Note: In the cluster setup for this class, you will learn how to use it. We will use it for some practices**
 
 ### For production
 #### 1. Manual setup (unmanaged)
-    - using Kubeadm
-    - Using kubespray
-    - Using Kops
-    - From scratch (complex)
+- using Kubeadm
+- Using kubespray
+- Using Kops
+- From scratch (complex)
 
 #### 2.  Cloud based (managed)
-    - Amazon EKS – Kubernetes on AWS.
-    - Google GKE – Kubernetes on Google Cloud.
-    - Azure AKS – Kubernetes on Microsoft Azure.
-    - Oracle OKE - Kubernetes on Oracle
-    - LKE - Kubernetes on Linode
-    - ...
+- Amazon EKS – Kubernetes on AWS. **Note: This is what we will use in this class**
+- Google GKE – Kubernetes on Google Cloud.
+- Azure AKS – Kubernetes on Microsoft Azure.
+- Oracle OKE - Kubernetes on Oracle
+- LKE - Kubernetes on Linode
+- ...
 
 #### 3. Enterprise Kubernetes (K8s distributions)
-    - Openshift – Red Hat’s enterprise Kubernetes with extra features.
-    - Rancher – Multi-cluster Kubernetes management.
-    - Tanzu - vSphere Tanzu Kubernetes Grid (TKG)
-    - ...
+- Openshift – Red Hat’s enterprise Kubernetes with extra features.
+- Rancher – Multi-cluster Kubernetes management.
+- Tanzu - vSphere Tanzu Kubernetes Grid (TKG)
+- ...
 
 ## Interacting with cluster
 - **Command Line Interface (CLI)**: using `kubectl` commands
 - **User Interface (UI)**: using the native **K8s Dashboard** or tools like **Lens**
 - **Kubernetes API**: Using programmatical access (ex. with python scripts, terraform codes etc.)
+
 
 ## How to use this repo
 The repo is organized and ordered for you to practice the concepts progressively.

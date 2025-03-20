@@ -39,15 +39,16 @@ eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster my-cluster
 Create an IAM service account with permissions to manage Amazon EBS volumes. This example:
 - Specifies the namespace (kube-system) and cluster name.
 - Attaches the AmazonEBSCSIDriverPolicy, which provides the necessary permissions for the EBS CSI driver.
+**Note**: Copy the command and paste it in an editor if you have some modifications on the cluster name or the region for example. After modifications you can run it in your terminal.
 
 ```bash
 eksctl create iamserviceaccount \
   --name ebs-csi-controller-sa \
   --namespace kube-system \
-  --cluster suzie-cluster \
+  --cluster my-cluster \
   --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
   --approve \
-  --region us-east-2
+  --region us-east-1
 ```
 #### Install the Amazon EBS CSI Driver
 Install the EBS CSI driver, which allows Kubernetes to manage EBS volumes dynamically. This command applies the configuration files from the official AWS EBS CSI driver GitHub repository.
@@ -72,4 +73,4 @@ kubectl get storageclass
 ```
 You can see the default storage class (gp2)
 
-Now you can create your own storage classes and pvc associated
+We will deploy a PVC using this default storage class and deploy a Pod that will comsume that PVC.
