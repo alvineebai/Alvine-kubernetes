@@ -1,56 +1,101 @@
 ## Lab: Deploying PHP Guestbook application with Redis
 
-### What is Redis and Why Use It in DevOps?
-Redis (Remote Dictionary Server) is an open-source, in-memory data store used as a cache, database, and message broker. It is designed for high-speed performance and supports various data structures like strings, lists, sets, and hashes.
+### Description
+A Guestbook App is a simple web application where users can submit and view messages, similar to leaving comments in a guestbook.
 
-### Why Use Redis for DevOps?
-For DevOps engineers, Redis is a powerful tool that helps improve performance, scalability, and reliability in distributed systems. Key use cases include:
+#### How It Works
+- Users visit the web page
+- They enter a message (like "Hello from John!")
+- The message is saved in a database (in this case, Redis)
+- Other users can see all messages
 
-🔄 Caching: Reduces database load and speeds up applications.
-📬 Message Queues: Used for real-time event streaming and task queuing.
-📊 Session Management: Stores user sessions in a fast and scalable way.
-⚡ High Availability: Supports replication and clustering for fault tolerance.
-🔍 Real-time Monitoring: Used for tracking logs, metrics, and alerts.
-By deploying a Redis master-follower setup, you ensure data redundancy and load balancing, making your system more efficient and resilient.
+#### Why use Redis?
+Redis (Remote Dictionary Server) is an open-source, **in-memory** data store making it a great choice for storing guestbook messages. Here’s why:
 
-### Architecture Overview
+- **Speed:** Since Redis stores data in memory (RAM), it is much faster than traditional databases like MySQL or PostgreSQL. This makes reading and writing messages almost instant.
+- **Simplicity:** Redis uses a key-value store, making it easy to save and retrieve guestbook messages without complex queries.
+- **Scalability:** Redis supports replication (Leader-Follower setup), so it can handle more users as the guestbook grows.
+- **Real-time Updates:** Redis supports Pub/Sub messaging, which allows instant updates without refreshing the page.
+- **Data Persistence (Optional):** While Redis is in-memory, it can also persist data to disk, ensuring messages are not lost on restart.
+
+#### Architecture Overview
 **Redis Master:** Handles write operations and replicates data to followers.
 **Redis Follower:** Reads data replicated from the master and handles read operations.
 **Frontend Application:** A simple web interface that interacts with Redis (reads from the follower, writes to the master).
 
-### Objective
-- Start up a Redis leader.
-- Start up two Redis followers.
-- Start up the guestbook frontend.
-- Expose and view the Frontend Service.
-- Clean up
+Simple architecture [link here](https://docs.google.com/document/d/1O4s68s_KeToxmBuZfkarkw4yWz-HQfLmnY6fA5TVHqA/edit?usp=sharing)
 
 ### Lab Steps
+
 #### Deploy Redis leader
 
-Create and apply a Redis leader deployment 
+Create and apply a Redis leader deployment (`01-redis-deployment-service.yaml`)
 Create and apply the Redis leader service to expose the master service for follower replication and frontend access.
+Check the file: `01-redis-deployment-service.yaml`
+
+Apply the file
+```bash
+kubectl apply 01-redis-leader-deployment-service.yaml
+kubectl get deploy,svc,pods
+```
 
 #### Deploy Redis Follower
 
 Create Redis follower deployment that replicate data from the master.
 Connect the follower pods to the master using replication settings.
+Apply the file
+```bash
+kubectl apply 02-redis-follower-deployment-service.yaml
+kubectl get deploy,svc,pods
+```
 
 #### Deploy the Frontend Application
 
-Create a simple web application that connects to Redis.
-The app will send write requests to the master and read requests to the follower.
+Create and apply the frontend deployment and service for the php app
 
-Create and apply the frontend deployment and service
+Apply the file
+```bash
+kubectl apply 03-frontend-deployment-service.yaml
+kubectl get deploy,svc,pods
+```
 
 #### Test the Deployment
+- **If you are on your local machine and you used the normal ClusterIP type of service**
+You can use `kubectl port-forward` command to access the frontend from the browser
+Run the following command to forward port 8080 on your local machine to port 80 on the service.
+```bash
+kubectl port-forward svc/frontend 8080:80
+```
 
-Access the frontend application and interact with Redis.
-Verify replication by checking if writes to the master appear in the follower.
+The response should be similar to this:
+```bash
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
+```
+load the page http://localhost:8080 in your browser to view your guestbook
 
-Scale the frontend deployment
+- **If you used the LoadBalancer service for frontend** 
+Copy the external IP address on your frontend service, and load the page in your browser to view your guestbook.
+
+
+#### Scale the frontend deployment
+```bash
+kubectl scale deployment frontend --replicas=4
+kubectl get pods
+kubectl scale deployment frontend --replicas=1
+kubectl get pods
+```
+**Optional exercice:** Verify replication by checking if writes to the master appear in the follower.
 
 ### Clean up
+
+You can use labels to deploy multiple resources with one command. Run the following commands to delete all pods, deployments and services we disployed:
+```bash
+kubectl delete deployment -l app=redis
+kubectl delete service -l app=redis
+kubectl delete deployment frontend
+kubectl delete service frontend
+```
 
 ### Expected Outcome
 By the end of this lab, you will have a functional Redis replication setup with a frontend interacting with it. This setup is commonly used to improve scalability and performance in real-world applications.
