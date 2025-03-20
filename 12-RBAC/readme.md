@@ -2,6 +2,7 @@
 
 ### Definitions
 **Role Based Access Control** in kubernetes is an authorization method to access the cluster resources based on the roles of users within your organization.
+The RBAC is setup by cluster administrators to control access to the cluster and cluster resources.
 
 **A role** contains a set of rules that represent a set of permissions in a namespace
 **A RoleBinding** is used to bind a Role to a user or a group of users.
@@ -14,9 +15,14 @@ To set up RBAC, we need to identify the who, the what and the rules:
 - What (resources like pods, services, deployments, ...)
 - rules (what action is allowed and what action is not allowed)
 
-### Examples of role & rolebinding, clusterrole and clusterrolebinding
+### Steps
+- create a namespace
+- create a role
+- create a rolebinding
+- create the subject (user, group or service account)
+- Create the config file for the subject to assume the role for cluster access
+- verify that the subjet only have access to the permissions set in the role
 
-Labs:
-Setup a new user in a k8s cluster
-Setup RBAC to allow read-only access to pods from a specific namespace to a new user
+### Practice
+We have a new user called Adam in dev team and we need to give him access to the cluster resources. As an administrator, setup RBAC to allow Adam to list and create pods, services and deployments in the dev to a new user
 
