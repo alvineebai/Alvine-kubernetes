@@ -24,5 +24,12 @@ To set up RBAC, we need to identify the who, the what and the rules:
 - verify that the subjet only have access to the permissions set in the role
 
 ### Practice
-We have a new user called Adam in dev team and we need to give him access to the cluster resources. As an administrator, setup RBAC to allow Adam to list and create pods, services and deployments in the dev to a new user
+#### Exercise 1:
+We have a new user called Adam in dev team and we need to give him access to the cluster resources. As an administrator, setup RBAC to allow Adam to list and create pods in the dev namespace
+Refer to the folder `rback-eks-user` to resolve the exercise.
 
+#### Exercise 2:
+
+We have a new user called Paul in dev team and we need to give him access to the cluster resources. As an administrator, setup RBAC using a service account to allow Paul to list and create pods and services in the dev namespace.
+
+Refer to the folder `rback-eks-sa` to resolve the exercise.
