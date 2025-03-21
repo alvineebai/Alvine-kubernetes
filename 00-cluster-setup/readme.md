@@ -4,7 +4,7 @@ Most of the practice in this repository can be done using kubernetes playgrounds
 
 ### How to use Killercoda kubernetes playgrounds
 
-**Note:** A recommended prerequisite to using Killercoda is to have a Github account. If you are at this level of the class, you should have an account!
+**Note:** A recommended prerequisite to using Killercoda is to have a Github account. If you are at this level of the class, you should have an account.
 1- In your browser, go to the Killercoda official website at [https://killercoda.com/]().
 2- Click on Playgrounds.
 3- Select the latest Kubernetes playground (Kubernetes 1.32 at the moment of writing this documentation).
@@ -20,22 +20,37 @@ Before proceeding, ensure that you have the following prerequisites:
 
 - **AWS Account:** You need to have an AWS account with the appropriate permissions to create and manage EKS clusters.
 
-- **IAM Permissions:** Ensure that your IAM user has sufficient permissions to create an EKS cluster, EC2 instances, and other resources required by EKS.
+- **IAM Permissions:** Ensure that your IAM user has sufficient permissions to create an EKS cluster, EC2 instances, and other resources required by EKS. An administrator account works well!
 
-- **AWS CLI:** The AWS Command Line Interface (CLI) must be installed and configured with your AWS credentials. You can configure it using the following command:
-```bash
-aws configure
-```
+- **AWS CLI:** The AWS Command Line Interface (CLI) must be installed and configured ()`aws configure`) with your AWS credentials.
 
 ### Install kubectl
 
 **kubectl:** is the Kubernetes command-line tool used to interact with the cluster. You can install it following [the instructions here](https://kubernetes.io/docs/tasks/tools/#kubectl).
-**Note:** You can use [choco on windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/#install-nonstandard-package-tools) or [brew on Mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos) 
+**Note:** You can use [choco on windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/#install-nonstandard-package-tools) or [brew on Mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
+
+After successful installation, run the following command to verify the version installed:
+```bash
+kubectl version --client
+```
 
 ### Install eksctl
 
-**eksctl** is a simple CLI tool for creating and managing clusters on EKS
-Refer to the following documentation to install eksctl on your system: [Link here](https://eksctl.io/installation/)
+**eksctl** is a simple CLI tool for creating and managing clusters on EKS.
+#### Install eksctl on Windows
+Open Powershell as administrator and install eksctl using choco with the command:
+```bash
+choco install eksctl
+```
+
+#### Install eksctl on MAC
+You can use Homebrew to install eksctl with the command:
+ ```bash
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctl
+```
+
+Refer to the following documentation to install eksctl on your system if the above commands does not work for you: [Link here](https://eksctl.io/installation/)
 
 ### Create the cluster in EKS
 Use the following command to create a cluster:

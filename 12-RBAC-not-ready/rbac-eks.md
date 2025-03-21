@@ -27,7 +27,7 @@ This guide explains how to configure **Role-Based Access Control (RBAC)** in an 
    - Go to **AWS IAM Console** → Users → Select the user → Copy the ARN.
    or use the command:
 ```bash
-aws ls iam
+aws iam list-users
 ```
 
 ---
@@ -66,17 +66,17 @@ kubectl create ns dev
 
 1. Save the following YAML file as `dev-role.yaml`:
 
-   ```yaml
-   apiVersion: rbac.authorization.k8s.io/v1
-   kind: Role
-   metadata:
-     namespace: dev
-     name: pod-manager
-   rules:
-   - apiGroups: [""]
-     resources: ["pods"]
-     verbs: ["create", "list", "delete"]
-   ```
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev
+  name: pod-manager
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create", "list", "delete"]
+```
 
 2. Apply the role to the cluster:
 
@@ -91,21 +91,21 @@ Now, bind the role to the **Kubernetes user** (`new-team-member`).
 
 1. Save the following YAML file as `dev-rolebinding.yaml`:
 
-   ```yaml
-   apiVersion: rbac.authorization.k8s.io/v1
-   kind: RoleBinding
-   metadata:
-     name: pod-manager-binding
-     namespace: dev
-   subjects:
-   - kind: User
-     name: new-team-member
-     apiGroup: rbac.authorization.k8s.io
-   roleRef:
-     kind: Role
-     name: pod-manager
-     apiGroup: rbac.authorization.k8s.io
-   ```
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-manager-binding
+  namespace: dev
+subjects:
+- kind: User
+  name: new-team-member
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-manager
+  apiGroup: rbac.authorization.k8s.io
+```
 
 2. Apply the RoleBinding:
 
