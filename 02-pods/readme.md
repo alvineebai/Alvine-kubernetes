@@ -139,11 +139,11 @@ kubectl delete ns dev
 ```
 
 ### Pods Quality of Service (QoS)
-When Kubernetes creates a Pod, it assigns a QoS class to the pod based on the resource (CPU, memory) requests and limits defined in that pod. There are 3 QoS classes
+When Kubernetes creates a Pod, it assigns a QoS class to the pod based on the resource (CPU, memory) requests and limits defined in that pod. There are 3 QoS classes: **BestEffort, Burstable and Guaranteed**
 
-- **Best effort: No resources requests or limits defined**
+- **BestEffort: No resources requests or limits defined**
 
-The pod defined in the file `04-pod-qos-besteffort.yaml` is a best effort pod.
+The pod defined in the file `04-pod-qos-besteffort.yaml` is a BestEffort pod.
 
 ```yaml
 apiVersion: v1
