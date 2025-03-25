@@ -74,3 +74,5 @@ Smallest unit in K8s, holds one or more containers.
 
 ## How to use this repo
 The repo is organized and ordered for you to practice the concepts progressively.
+In each folder, you will find a readme file to help you understand the concept and practice.
+**Note**: All the files mentioned in the readme ca be directly found in the same folder. Just use the content of those files if no other specification is given.

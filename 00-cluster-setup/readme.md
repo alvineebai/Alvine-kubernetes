@@ -5,12 +5,13 @@ Most of the practice in this repository can be done using kubernetes playgrounds
 ### How to use Killercoda kubernetes playgrounds
 
 **Note:** A recommended prerequisite to using Killercoda is to have a Github account. If you are at this level of the class, you should have an account.
-1- In your browser, go to the Killercoda official website at [https://killercoda.com/]().
-2- Click on Playgrounds.
-3- Select the latest Kubernetes playground (Kubernetes 1.32 at the moment of writing this documentation).
-4- Sign in using your GitHub account. (You can also sign in using google or your email).
-5- Killercoda will authenticate with your GitHub account. Validate if required.
-6- Your environment is ready. You can run the command `kubectl get nodes` in the terminal displayed and start practicing.
+
+1. In your browser, go to the Killercoda official website at [https://killercoda.com/]().
+2. Click on Playgrounds.
+3. Select the latest Kubernetes playground (Kubernetes 1.32 at the moment of writing this documentation).
+4. Sign in using your GitHub account. (You can also sign in using google or your email).
+5. Killercoda will authenticate with your GitHub account. Validate if required.
+6. Your environment is ready. You can run the command `kubectl get nodes` in the terminal displayed and start practicing.
 
 ## Setup EKS cluster using eksctl
 There are various ways to setup kubernetes cluster. For this class, we will setup a kubernetes cluster in EKS using eksctl.
@@ -28,6 +29,7 @@ Before proceeding, ensure that you have the following prerequisites:
 ### Install kubectl
 
 **kubectl:** is the Kubernetes command-line tool used to interact with the cluster. You can install it following [the instructions here](https://kubernetes.io/docs/tasks/tools/#kubectl).
+
 **Note:** You can use [choco on windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/#install-nonstandard-package-tools) or [brew on Mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
 
 After successful installation, run the following command to verify the version installed:
@@ -54,6 +56,7 @@ brew install weaveworks/tap/eksctl
 Refer to the following documentation to install eksctl on your system if the above commands do not work for you: [Link here](https://eksctl.io/installation/)
 
 ### Create the cluster in EKS
+
 Use the following command to create a cluster:
 ```bash
 eksctl create cluster --name my-cluster --region us-east-1 --nodegroup-name my-nodes --node-type t3.small --nodes 2 --nodes-min 1 --nodes-max 2
