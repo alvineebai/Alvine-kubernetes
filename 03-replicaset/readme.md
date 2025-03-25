@@ -50,7 +50,7 @@ kubectl describe pod <pod-name-here>
 ```
 - Delete a pod and verify that the replicaset creates a new one
 ```bash
-kubectl delete pod pod-name-here
+kubectl delete pod <pod-name-here>
 ```
 
 - Delete the replicaset
