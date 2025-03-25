@@ -12,7 +12,8 @@ Most of the practice in this repository can be done using kubernetes playgrounds
 5- Killercoda will authenticate with your GitHub account. Validate if required.
 6- Your environment is ready. You can run the command `kubectl get nodes` in the terminal displayed and start practicing.
 
-## Create EKS cluster via eksctl
+## Setup EKS cluster using eksctl
+There are various ways to setup kubernetes cluster. For this class, we will setup a kubernetes cluster in EKS using eksctl.
 This is the production ready cluster we will use throughout the course.
 
 ### Prerequisites
@@ -50,7 +51,7 @@ brew tap weaveworks/tap
 brew install weaveworks/tap/eksctl
 ```
 
-Refer to the following documentation to install eksctl on your system if the above commands does not work for you: [Link here](https://eksctl.io/installation/)
+Refer to the following documentation to install eksctl on your system if the above commands do not work for you: [Link here](https://eksctl.io/installation/)
 
 ### Create the cluster in EKS
 Use the following command to create a cluster:

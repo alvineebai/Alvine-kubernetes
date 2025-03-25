@@ -74,3 +74,60 @@ kubectl get storageclass
 You can see the default storage class (gp2)
 
 We will deploy a PVC using this default storage class and deploy a Pod that will comsume that PVC.
+
+### LAB: Using dynamic storage with EBS to deploy a pod with persistent storage
+
+This lab demonstrates how to create a **PersistentVolumeClaim (PVC)** using EBS with the default **gp2 StorageClass** in AWS EKS.
+
+After enabling dynamic provisioning in EKS, you can create a PVC and deploy a pod that will consume that volume.
+
+Create a manifest for the PVC (`ebs-pvc.yaml`). The content should look like the following:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce  # Only one node can mount the volume
+  resources:
+    requests:
+      storage: 5Gi  # Request 5GB of storage
+  storageClassName: gp2  # Default StorageClass for EBS in AWS
+```
+Create a pod (`pod-ebs.yaml`) that will consume the PVC.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ebs
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sh", "-c", "echo 'Hello from EBS!' > /data/test.txt && sleep 3600" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
+```
+Apply your files in the cluster
+
+```bash
+kubectl apply -f ebs-pvc.yaml
+kubectl apply -f pod-ebs.yaml
+```
+Verify that the PVC status is **Bound** and that the pod is running and using the volume
+```bash
+kubectl get pvc
+kubectl get pod
+kubectl exec -it pod-ebs -- cat /data/test.txt
+```
+If the pod is recreated on the same node, it should still have access to the data.
+
+**Note:** In AWS EKS, EBS does not support **RWX(ReadWriteMany)**. It is limited to **RWO(ReadWriteOnce)** It means the volume created by ebs can only be mounted to one node. To allow many nodes to mount a volume, you need to use another service like Amazon EFS that support RWX.

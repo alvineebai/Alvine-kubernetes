@@ -1,0 +1,184 @@
+## What is Helm?
+
+Helm is a package manager for kuberetes. See it as apt for ubuntu or yum for redhat
+
+With Helm, users can install, upgrade and uninstall applications on a Kubernetes cluster using few commands
+
+### Helm architecture and terminology
+
+- Helm client: command-line tool used to manage Kubernetes applications with Helm
+- Helm Chart: A package of Kubernetes resources (templates & configs) used to deploy an app.
+- Repository: A storage location for Helm charts (local or remote, public or private).
+- Release: A running instance of a chart in a Kubernetes cluster.
+- Release Namespace: The Kubernetes namespace where a release is deployed.
+- Values: Configurable parameters used to customize a chart’s deployment.
+- Template: Dynamic YAML files that generate Kubernetes resources using provided values.
+- Tiller: Deprecated server component in Helm 2 (removed in Helm 3).
+- Dependency: A chart that another chart relies on for deployment.
+- Upgrade: Updating an existing release with new chart versions or configs.
+- Rollback: Reverting a release to a previous working version.
+
+### Helm chart structure
+chart name
+- Chart.yaml	Metadata about the chart (name, version, description).
+- values.yaml	Default configuration values for templates.
+- templates/	Contains Kubernetes YAML templates (Deployment, Service, Ingress, etc.).
+- templates/_helpers.tpl	Defines reusable template functions.
+- templates/NOTES.txt	Shows installation notes after deployment.
+- charts/	Stores dependent charts if needed.
+- README.md	Documentation for the chart.
+
+
+### Helm installation
+
+The official documentation for [installing Helm](https://helm.sh/docs/intro/install/) shows how to install the Helm CLI on various systems.
+You can use `choco install kubernetes-helm` on Windows and `brew install helm` on MAC
+
+### Basic Helm commands
+| Command | Syntax | Example |
+|---------|--------|---------|
+| **Search for a chart in artifact Hub** | `helm search hub <chart-name>` | `helm search hub nginx` |
+| **Install a chart** | `helm install <release-name> <chart>` | `helm install my-release nginx` |
+| **Upgrade a release** | `helm upgrade <release-name> <chart>` | `helm upgrade my-release nginx` |
+| **List releases** | `helm list` | `helm list` |
+| **Search for a chart** | `helm search repo <keyword>` | `helm search repo nginx` |
+| **Add a chart repository** | `helm repo add <repo-name> <repo-url>` | `helm repo add bitnami https://charts.bitnami.com/bitnami` |
+| **Update chart repositories** | `helm repo update` | `helm repo update` |
+| **Show values of a chart** | `helm show values <chart>` | `helm show values nginx` |
+| **Get the status of a release** | `helm status <release-name>` | `helm status my-release` |
+| **Rollback a release** | `helm rollback <release-name> <revision>` | `helm rollback my-release 1` |
+| **Get the history of a release** | `helm history <release-name>` | `helm history my-release` |
+| **Fetch chart information** | `helm show chart <chart>` | `helm show chart nginx` |
+| **Get manifest of a release** | `helm get manifest <release-name>` | `helm get manifest my-release` |
+| **Uninstall a release** | `helm uninstall <release-name>` | `helm uninstall my-release` |
+| **Remove chart repositories** | `helm repo remove` | `helm repo remove` |
+
+You could get all these commands and more from the Helm cheat sheet: [Link here](https://helm.sh/docs/intro/cheatsheet/)
+
+### Lab 1: Deploy Wordpress using Helm
+### Lab 2: Use helm to install prometheus and grafana in your cluster for monitoring:
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+kubectl create ns monitoring
+helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack
+
+Use the prometheus grafana stack for monitoring kubernetes cluster live
+
+kubectl get pods -n monitoring
+
+kubectl get svc -n monitoring   ## Get the details of prometheus-grafana service
+
+kubectl edit service prometheus-grafana -n monitoring # change to LoadBalancer
+
+** Official gihub repo for prometheus and grafana
+https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+
+### Lab 3: Create a Helm chart for a simple nginx app ad deploy it in a cluster
+#### Prerequisites
+- Have Helm installed
+
+#### Steps
+1. Create the Chart
+
+```bash
+helm create myapp
+```
+
+This generates a folder structure:
+
+ myapp/
+│── charts/
+│── templates/
+│── values.yaml
+│── Chart.yaml
+│── templates/deployment.yaml
+│── templates/service.yaml
+
+2. Modify the values.yaml
+Edit myapp/values.yaml and add or modify the following parameters
+
+```yaml
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+```
+
+3. Modify templates/deployment.yaml
+
+Edit templates/deployment.yaml:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: myapp
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+```
+4. Modify templates/service.yaml
+Edit templates/service.yaml:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service
+spec:
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: 80
+  type: {{ .Values.service.type }}
+```
+5. Install the Chart
+```bash
+helm install my-release myapp
+```
+6. Check the deployment:
+
+```bash
+kubectl get pods
+kubectl get svc
+```
+7. Upgrade the Release
+Modify values.yaml (e.g., change replicaCount to 3).
+
+Run:
+```bash
+helm upgrade my-release myapp
+```
+
+8. Rollback the Release
+To roll back to a previous version:
+
+```bash
+helm rollback my-release 1
+```
+
+9. Uninstall the Release
+```bash
+helm uninstall my-release
+```
