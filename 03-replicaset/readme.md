@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## The Replicaset
 A ReplicaSet is a Kubernetes object that ensures a specified number of identical Pod replicas are running at any given time. If a Pod dies or is deleted, the ReplicaSet creates a new one. If you scale up, it adds more Pods; if you scale down, it removes extra Pods.
 

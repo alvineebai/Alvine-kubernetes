@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## Namespaces in kubernetes
 A Namespace is a way to logically divide your resources into groups within the cluster. This is very useful when many teams create resources in a single cluster. 
 Each object created in the cluster belongs to a namespace.

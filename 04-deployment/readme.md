@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds** except for the **autoscaling** part.
+
 ## The Deployment
 
 A **deployment** is a higher level object that creates and manages ReplicaSets which then ensures that the desired number of pods are running. More than a simple replicaset, the deployment allows you to handle **rolling updates (rollout), rollbacks and version management** of applications.
@@ -193,4 +195,5 @@ To enable autoscaling for a deployment, we need a specific object called **HPA (
 - Create the load and check how the HPA is working (it should scale up)
 - Reduce the load (the HPA should scale down the pods)
 - Clean up (optional)
+
 

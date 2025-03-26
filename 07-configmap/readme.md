@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## The configMap resource
 
 It is a good practice is to keep your application code separate from your environments (dev, test, qa, prod) configuration.A ConfigMap is an object that allows you to store non-confidential configuration data as key-value pairs. With ConfigMaps, you can store configuration settings like:  connection strings, public credentials, hostnames, and URLs.

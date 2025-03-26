@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## The Pod in Kubernetes
 ### Definition
 A **Pod** is the smallest and simplest Kubernetes object (Smallest or atomic unit in K8s). It can contain one or more containers. Each pod has its own IP address for communication. Containers in the pod share the pod IP address and namespace.
