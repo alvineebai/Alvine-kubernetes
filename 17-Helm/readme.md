@@ -87,15 +87,25 @@ helm create myapp
 
 This generates a folder structure:
 ```
-myapp/
-│── charts/
-│── templates/
-│── values.yaml
-│── Chart.yaml
-│── templates/deployment.yaml
-│── templates/service.yaml
+myapp/                    # Root directory of the Helm chart
+├── charts/               # Directory for dependencies (empty by default)
+├── templates/            # Kubernetes resource templates
+│   ├── _helpers.tpl      # Template helpers for labels and annotations
+│   ├── deployment.yaml   # Kubernetes Deployment manifest template
+│   ├── hpa.yaml          # HorizontalPodAutoscaler template (optional)
+│   ├── ingress.yaml      # Ingress template (optional)
+│   ├── service.yaml      # Service template
+│   ├── serviceaccount.yaml # ServiceAccount template (optional)
+│   ├── NOTES.txt         # Instructions after chart installation
+│   ├── tests/            # Test templates (contains test-connection.yaml)
+├── .helmignore           # Files to ignore when packaging the chart
+├── Chart.yaml            # Metadata about the Helm chart (name, version, description)
+├── values.yaml           # Default configuration values for the chart
+├── values.schema.json    # JSON schema for values validation (optional)
+├── README.md             # Documentation for the Helm chart
 ```
 2. Modify the values.yaml
+
 Edit myapp/values.yaml and add or modify the following parameters
 
 ```yaml
@@ -137,6 +147,7 @@ spec:
             - containerPort: 80
 ```
 4. Modify templates/service.yaml
+
 Edit templates/service.yaml:
 
 ```yaml
@@ -157,13 +168,14 @@ spec:
 ```bash
 helm install my-release myapp
 ```
-6. Check the deployment:
+6. Verify the deployment:
 
 ```bash
 kubectl get pods
 kubectl get svc
 ```
 7. Upgrade the Release
+
 Modify values.yaml (e.g., change replicaCount to 3).
 
 Run:
@@ -172,6 +184,7 @@ helm upgrade my-release myapp
 ```
 
 8. Rollback the Release
+
 To roll back to a previous version:
 
 ```bash
