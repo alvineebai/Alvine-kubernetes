@@ -19,14 +19,26 @@ With Helm, users can install, upgrade and uninstall applications on a Kubernetes
 - Rollback: Reverting a release to a previous working version.
 
 ### Helm chart structure
-chart name
-- Chart.yaml	Metadata about the chart (name, version, description).
-- values.yaml	Default configuration values for templates.
-- templates/	Contains Kubernetes YAML templates (Deployment, Service, Ingress, etc.).
-- templates/_helpers.tpl	Defines reusable template functions.
-- templates/NOTES.txt	Shows installation notes after deployment.
-- charts/	Stores dependent charts if needed.
-- README.md	Documentation for the chart.
+
+```
+helm-chart-name/           # Root directory of the Helm chart
+├── charts/                # Directory for dependencies (empty by default)
+├── templates/             # Kubernetes resource templates
+│   ├── _helpers.tpl       # Template helpers (labels, functions, etc.)
+│   ├── deployment.yaml    # Kubernetes Deployment manifest
+│   ├── hpa.yaml           # Horizontal Pod Autoscaler (optional)
+│   ├── ingress.yaml       # Ingress manifest (optional)
+│   ├── NOTES.txt          # Instructions after chart installation
+│   ├── service.yaml       # Kubernetes Service manifest
+│   ├── serviceaccount.yaml # ServiceAccount (optional)
+│   ├── tests/             # Test templates
+│   │   ├── test-connection.yaml  # Example test template
+├── .helmignore            # Files to ignore when packaging the chart
+├── Chart.yaml             # Metadata about the Helm chart (name, version, description)
+├── values.yaml            # Default configuration values for the chart
+├── values.schema.json     # JSON schema for values validation (optional)
+├── README.md              # Documentation for the Helm chart
+```
 
 
 ### Helm installation
