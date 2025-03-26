@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## The Daemonset
 Daemonsets ensure that a copy of a desired pod run on all (or some) nodes of the cluster.It can be used in the following cases:
 - To run a daemon for logs collection on each node (like Fluentd or logstash.
