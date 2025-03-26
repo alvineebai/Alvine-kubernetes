@@ -13,6 +13,8 @@ Most of the practice in this repository can be done using kubernetes playgrounds
 5. Killercoda will authenticate with your GitHub account. Validate if required.
 6. Your environment is ready. You can run the command `kubectl get nodes` in the terminal displayed and start practicing.
 
+**Important note**: Use the vi editor in the playground to create your files. Also remember to use `CTRL + Shift + C` to copy and `CTRL + Shift + V` to paste if the CTRL + C does not work.
+
 ## Setup EKS cluster using eksctl
 There are various ways to setup kubernetes cluster. For this class, we will setup a kubernetes cluster in EKS using eksctl.
 This is the production ready cluster we will use throughout the course.
@@ -24,7 +26,7 @@ Before proceeding, ensure that you have the following prerequisites:
 
 - **IAM Permissions:** Ensure that your IAM user has sufficient permissions to create an EKS cluster, EC2 instances, and other resources required by EKS. An administrator account works well!
 
-- **AWS CLI:** The AWS Command Line Interface (CLI) must be installed and configured ()`aws configure`) with your AWS credentials.
+- **AWS CLI:** The AWS Command Line Interface (CLI) must be installed and configured (`aws configure`) with your AWS credentials (access key, secret key, region ...).
 
 ### Install kubectl
 

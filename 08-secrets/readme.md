@@ -32,7 +32,19 @@ Convert the username and the password to base64
 echo -n 'devops' | base64
 echo -n '1f2d1e2e67df' | base64
 ```
-Create the manifest (`mysecret.yaml`)
+Create the manifest (`mysecret.yaml`) with the following content:
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: ZGV2b3Bz
+  password: MWYyZDFlMmU2N2Rm
+```
+
+Create and verify the secret
 ```bash
 kubectl create -f mysecret.yaml
 kubectl get secrets
@@ -40,10 +52,65 @@ kubectl describe secret mysecret
 ```
 ### How to use a secret in pod or deployment
 - As environment variables for the container using the env or the envFrom parameters
-Example: Check `my-secret-pod.yaml`
+
+Example: use the content of the file `my-secret-pod.yaml` to create the pod:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-secret-pod1
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+      - containerPort: 80
+      env:
+        - name: SECRET_USERNAME # Environment variable name will get the value from the secret
+          valueFrom:
+            secretKeyRef:
+              name: mysecret # Name of the variable from the secret
+              key: username
+        - name: SECRET_PASSWORD  # Environment variable name will get the value from the secret
+          valueFrom:
+            secretKeyRef:
+              name: mysecret # Name of the variable from the secret
+              key: password
+```
+Create and verify the pod:
+
+```bash
+kubectl create -f my-secret-pod.yaml
+kubectl get pods
+kubectl describe pod my-secret-pod1
+kubectl exec -it my-secret-pod1 -- printenv
+```
 
 - As a read-only Volume for the application to read
-Example: Check `my-secret-pod-volume.yaml`
+
+Example: use the content of the file `my-secret-pod-volume.yaml` to create the pod:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-secret-pod-volume
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: secret-volume
+          mountPath: /etc/config
+          readOnly: true
+      ports:
+      - containerPort: 80
+  volumes:
+    - name: secret-volume
+      secret:
+        secretName: mysecret
+```
 
 Create the pod and check that the secret is defined:
 ```bash

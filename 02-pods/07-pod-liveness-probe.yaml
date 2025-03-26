@@ -31,15 +31,18 @@ spec:
 # if it fails, then the container is unhealthy
 #
 # create the pod
-# kubectl create pod-liveness-probe.yaml
+# kubectl create -f pod-liveness-probe.yaml
 #
 # verify
 # kubectl get pods - the pod should be running
 #
 # check the liveness probe - after 20 seconds, the liveness probes should fails
 # then kubelet should restart the container
+#
 # kubectl describe pod pod-liveness
-# run many times to check
+# 
+# run many times to check that the pod is continuously restarted after some time
+# kubectl get pods
 #
 # delete the pod
 # kubectl delete pod pod-liveness

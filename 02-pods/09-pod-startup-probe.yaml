@@ -29,7 +29,7 @@ spec:
 # If the pod takes longer than 30 seconds, Kubernetes restarts it.
 #
 # create the pod
-# kubectl create pod-startup-probe.yaml
+# kubectl create -f pod-startup-probe.yaml
 #
 # verify - the pod should be running but not ready before 20s
 # kubectl get pods 

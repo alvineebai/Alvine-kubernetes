@@ -48,10 +48,12 @@ kubectl get pod -o wide
 kubectl run app2 --image nginxjdf
 kubectl get pods
 kubectl get pod -o wide
+# you should get an error ErrImagePull
 kubectl describe pod app2
 kubectl edit pod app2
 # modify the image name to nginx, save and exit the edition page
 kubectl get pods
+# The pod should now be Running
 ```
 2. Get the logs of a pod (this is useful for troubleshooting when a pod has issues)
 ```bash 
@@ -97,8 +99,8 @@ spec:
 deploy and verify the pod
 ```bash
 kubectl create -f pod-namespace.yaml
+kubectl get pods 
 kubectl get pods -n dev
-kubectl get pods
 ```
 Delete the pod and the namespace.
 
@@ -152,7 +154,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: qos-besteffort
-  namespace: qos-example
   labels:
    app: utrains
 spec:
@@ -183,7 +184,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: qos-burstable
-  namespace: qos-example
   labels:
    app: utrains
 spec:
@@ -220,7 +220,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: qos-guaranteed
-  namespace: qos-example
   labels:
    app: utrains
 spec:

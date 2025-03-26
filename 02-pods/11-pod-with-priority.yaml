@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: batch-job
+  name: batch-pod
   namespace: default
 spec:
   priorityClassName: low-priority-pods
