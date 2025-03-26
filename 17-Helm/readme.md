@@ -67,20 +67,24 @@ You can use `choco install kubernetes-helm` on Windows and `brew install helm` o
 
 You could get all these commands and more from the Helm cheat sheet: [Link here](https://helm.sh/docs/intro/cheatsheet/)
 
-### Lab 1: Deploy Wordpress using Helm
-### Lab 2: Use helm to install prometheus and grafana in your cluster for monitoring:
+**Note: Before getting to the Lab, make sure your EKS cluster is up and accessible.**
 
+
+
+### Practice 1 : Use helm to install prometheus and grafana in your cluster for monitoring:
+
+1. 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
+
+Create the namespace and install the app
 kubectl create ns monitoring
 helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack
 
 Use the prometheus grafana stack for monitoring kubernetes cluster live
 
 kubectl get pods -n monitoring
-
 kubectl get svc -n monitoring   ## Get the details of prometheus-grafana service
-
 kubectl edit service prometheus-grafana -n monitoring # change to LoadBalancer
 
 ** Official gihub repo for prometheus and grafana
