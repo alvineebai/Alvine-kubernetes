@@ -86,15 +86,15 @@ helm create myapp
 ```
 
 This generates a folder structure:
-
- myapp/
+```
+myapp/
 │── charts/
 │── templates/
 │── values.yaml
 │── Chart.yaml
 │── templates/deployment.yaml
 │── templates/service.yaml
-
+```
 2. Modify the values.yaml
 Edit myapp/values.yaml and add or modify the following parameters
 
