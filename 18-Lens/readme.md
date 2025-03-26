@@ -10,3 +10,7 @@ Yon work without needing to use kubectl commands all the time.
 - Role-Based Access Control (RBAC): Manage users and permissions
 - Helm Integration: Deploy and manage Helm charts
 - Resource Monitoring: CPU, memory, and network usage
+
+### Install Lens
+
+Follow this github repository to install OpenLens on your system: [Link here](https://github.com/MuhammedKalkan/OpenLens.git)

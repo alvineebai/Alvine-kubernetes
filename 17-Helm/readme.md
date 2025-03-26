@@ -74,7 +74,7 @@ kubectl edit service prometheus-grafana -n monitoring # change to LoadBalancer
 ** Official gihub repo for prometheus and grafana
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
-### Lab 3: Create a Helm chart for a simple nginx app ad deploy it in a cluster
+### Lab 3: Create a Helm chart for a simple nginx app and deploy it in a cluster
 #### Prerequisites
 - Have Helm installed
 
