@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: podB
+  name: pod-b
   labels:
    app: utrains
 spec:

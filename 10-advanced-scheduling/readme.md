@@ -5,9 +5,13 @@
 
 **The Kube-scheduler** performs scheduling in kubernetes clusters by placing pods on nodes to optimize resources and maintain high availability of deployed applications.
 
-Kubernetes allows you to define your scheduling algorithms or to use advanced scheduling techniques such as: **Node Selector, Node Affinity, Pod Affinity/Anti-Affinity, Taints and Tolerations**
+Kubernetes allows you to define your scheduling algorithms or to use advanced scheduling techniques such as: 
+- **Node Selector, 
+- Node Affinity, 
+- Pod Affinity/Anti-Affinity, 
+- Taints and Tolerations**
 
-Note: To better observe the scheduling effect, you need a cluster with at least 2 worker nodes
+**Note:** To better observe the scheduling effect, you need a cluster with at least 2 worker nodes
 
 ### The Node Selector
 Here the goal is to constraint the scheduler to place the pod on a specific node. To perform this, you need to add a label on the node then use that label in the pod specifications with the NodeSelector field.
@@ -110,7 +114,7 @@ spec:
     image: nginx
     imagePullPolicy: IfNotPresent
 ``` 
-Apply and verify
+Apply and verify. The pod will prefer to be palced of the node with label `disktype=ssd`. But it can also be placed elsewhere.
 
 ```bash
 kubectl apply -f pod-node-affinity-preferred.yaml
@@ -140,7 +144,7 @@ spec:
     image: nginx
     imagePullPolicy: IfNotPresent
 ``` 
-Apply and verify
+Apply and verify that the pod is placed on the node with label `disktype=ssd`
 
 ```bash
 kubectl apply -f pod-node-affinity-preferred.yaml
@@ -155,7 +159,14 @@ kubectl label node node01 disktype=ssd
 ```
 
 #### Notes: 
-- There is no Node Anti-Affinity field. To define the node anti-affinity behaviour, we use the value of the operator parameter.  You can use In, NotIn, Exists, DoesNotExist, Gt (greater than) and Lt (lower than). So you can use `NotIn` and `DoesNotExist` to configure node anti-affinity behaviour.
+- There is no Node Anti-Affinity field. To define the node anti-affinity behaviour, we use the value of the operator parameter. The operator parameter can take values like: 
+    - In, 
+    - NotIn, 
+    - Exists, 
+    - DoesNotExist, 
+    - Gt (greater than)
+    - Lt (lower than). 
+- So you can use `NotIn` and `DoesNotExist` to configure **node anti-affinity** behaviour.
 
 Example: Create the pod with the manifest `pod-node-anti-affinity.yaml` that must not be placed on the node with the label `disktype=ssd`
 
@@ -180,7 +191,7 @@ spec:
     imagePullPolicy: IfNotPresent
 ```
 
-Apply and verify, the pod should not be placed on the node with label `disktype=ssd`
+Apply and verify, the pod **should not be placed** on the node with label `disktype=ssd`
 
 ```bash
 kubectl apply -f pod-node-anti-affinity.yaml
@@ -191,7 +202,7 @@ kubectl delete -f pod-node-anti-affinity.yaml
 
 #### Notes
 - You can define a pod with both hard and soft type
-- You can define pods with multiple node affinity constraints. open and verif the manifests `pod-with-preferred-node-affinity-multiple.yaml` and `pod-with-required-node-affinity-multiple.yaml`
+- You can define pods with multiple node affinity constraints. open and verify the manifests `pod-with-preferred-node-affinity-multiple.yaml` and `pod-with-required-node-affinity-multiple.yaml`
 
 ### The Pod Affinity/Anti-Affinity
 
@@ -205,7 +216,7 @@ kubectl delete -f pod-node-anti-affinity.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: podA
+  name: pod-a
   labels:
    app: web
 spec:
@@ -224,7 +235,7 @@ kubectl get pods -o wide
 apiVersion: v1
 kind: Pod
 metadata:
-  name: podB
+  name: pod-b
   labels:
    app: utrains
 spec:
@@ -250,6 +261,7 @@ kubectl get pods -o wide
 
 
 - **Pod anti-affinity** enable us to avoid scheduling pods in the same location. (Do not schedule pod A near pod C).
+
 **Example**: Create a podA that run the httpd image, then create a podC not near the podA. The manifest are found in the `03-pod-affinity` folder
 
 Note: The podA was created previously, so just create the podC with the manifest `pod-anti-affinity.yaml`
@@ -257,7 +269,7 @@ Note: The podA was created previously, so just create the podC with the manifest
 apiVersion: v1
 kind: Pod
 metadata:
-  name: podC
+  name: pod-c
   labels:
    app: utrains
 spec:
@@ -275,7 +287,7 @@ spec:
             - web
         topologyKey: "kubernetes.io/hostname"
 ```
-Apply and verify the node where the pod is placed. It should not be placed on the same node with podA.
+Apply and verify the node where the pod is placed. It **should not be placed** on the same node with podA.
 ```bash
 kubectl apply -f pod-anti-affinity.yaml
 kubectl get pods -o wide
@@ -317,7 +329,7 @@ Example: Taint 2 nodes in your cluster with the following specs: for the first n
 kubectl taint node <node-name> color=pink:NoSchedule
 kubectl taint node <node-name> color=yellow:NoSchedule
 ```
-**Note**: Replace <node-name> with the actual name of your node. If you are working in a Killercoda playground, you can set the taint on the controlplane node.
+**Note**: Replace <node-name> with the actual name of your node. **If you are working in a Killercoda playground, you can set the taint on the controlplane node.**
 
 #### How to set tolerations for pods
 You specify a toleration for a pod in the `tolerations` field in the pod specifications. In this field, you use the **key, value, effect** but also `operator` parameter
@@ -383,7 +395,7 @@ spec:
     value: "black"
     effect: "NoSchedule"
 ```
-Apply the pod in the cluster and verify that the pod stays pending because there is node node with that taint in the cluster.
+Apply the pod in the cluster and verify that the pod stays **Pending** because there is node node with that taint in the cluster.
 ```bash
 kubectl create -f pod-toleration-equal2.yaml
 kubectl get pods -o wide
@@ -441,8 +453,17 @@ spec:
     operator: "Exists"
     effect: "NoExecute"
 ```
-Apply the pod in the cluster and verify that the pod stays run on any of the node that has a color set
+Apply the pod in the cluster and verify that the pod stays **Pending** because there is no taint key that satisfies the pod toleration.
 ```bash
 kubectl create -f pod-toleration-exists2.yaml
 kubectl get pods -o wide
+kubectl describe pod webserver4
+```
+
+Delete all the pods.
+```bash
+kubectl delete pod webserver1
+kubectl delete pod webserver2
+kubectl delete pod webserver3
+kubectl delete pod webserver4
 ```
