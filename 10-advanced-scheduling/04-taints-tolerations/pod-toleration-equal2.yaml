@@ -1,9 +1,9 @@
-# pod-with-toleration1.yaml
+# pod-toleration-equal2.yaml
 #
 apiVersion: v1
 kind: Pod
 metadata:
-  name: webserver
+  name: webserver2
 spec:
   containers:
     - name: httpd

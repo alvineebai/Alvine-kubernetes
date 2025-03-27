@@ -1,9 +1,9 @@
-# pod-with-toleration1.yaml
+# pod-toleration-exists2.yaml
 #
 apiVersion: v1
 kind: Pod
 metadata:
-  name: webserver
+  name: webserver4
 spec:
   containers:
     - name: httpd
@@ -33,7 +33,7 @@ spec:
 #
 # Check the pod
 # kubectl get pods 
-# It should running on any of the nodes
+# It should be running on any of the nodes
 #
 # Delete pod
 # kubectl delete pod/webserver

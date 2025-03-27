@@ -65,6 +65,8 @@ eksctl create cluster --name my-cluster --region us-east-1 --nodegroup-name my-n
 ```
 **Note:** This command may complete in 10 to 15 minutes depending on your computer and network connection. Be patient and wait till the end of the process
 
+🚨 **WARNING:** If you encounter the following error `Error: invalid version, supported values: 1.19, 1.20, 1.21, 1.22 ...`, you need to upgrade your eksctl version. On Windows, run `choco upgrade eksctl`, or `brew upgrade eksctl` on Mac.
+
 ### Update the Kubeconfig
 
 After creating the cluster, you need to update the context in the local Kubeconfig file in order to interact with the cluster.
@@ -96,3 +98,4 @@ When done with practice, always delete resources to avoid further charges in the
 ```bash
 eksctl delete cluster --name my-cluster --region us-east-1
 ```
+After deleting the cluster, you can verify in Cloudformation that all the stacks related to the cluster creation were successfully deleted.
