@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds with 2 nodes**
+
 ## Advanced scheduling techniques in Kubernetes
 
 ### Definitions
@@ -6,15 +8,15 @@
 **The Kube-scheduler** performs scheduling in kubernetes clusters by placing pods on nodes to optimize resources and maintain high availability of deployed applications.
 
 Kubernetes allows you to define your scheduling algorithms or to use advanced scheduling techniques such as: 
-- **Node Selector, 
-- Node Affinity, 
-- Pod Affinity/Anti-Affinity, 
-- Taints and Tolerations**
+- **Node Selector,** 
+- **Node Affinity,** 
+- **Pod Affinity/Anti-Affinity,** 
+- **Taints and Tolerations**
 
-**Note:** To better observe the scheduling effect, you need a cluster with at least 2 worker nodes
+**Note: To better observe the scheduling effect, you need a cluster with at least 2 worker nodes**
 
 ### The Node Selector
-Here the goal is to constraint the scheduler to place the pod on a specific node. To perform this, you need to add a label on the node then use that label in the pod specifications with the NodeSelector field.
+Here the goal is to constraint the scheduler to place the pod on a specific node. To perform this, you need to add a label on the node then use that label in the pod specifications with the `nodeSelector` field.
 - To add a label to a node, we can use the `kubectl label` command:
 ```bash
 kubectl label nodes <node-name> key=value
@@ -24,7 +26,7 @@ kubectl get nodes --show-labels
 kubectl get nodes --show-labels | grep ssd 
 ```
 
-- To create a pod that gets scheduled to your chosen node you must use the Nodeselector field and include the label you defined on the node. Open and verify the file `pod-node-selector.yaml` in the `01-node-selector` folder
+- To create a pod that gets scheduled to your chosen node you must use the `nodeSelector` field and include the label you defined on the node. Open and verify the file `pod-node-selector.yaml` in the `01-node-selector` folder
 
 Create the pod manifest `pod-node-selector.yaml`
 ```yaml
@@ -49,7 +51,9 @@ kubectl get pods -o wide
 kubectl delete -f pod-node-selector.yaml
 ```
 
-You can also schedule a pod to one specific node via setting `nodeName`. Open and verify the `pod-node-name.yaml` manifest in the `01-node-selector` folder.
+You can also schedule a pod to one specific node via setting `nodeName`. 
+
+Open and verify the `pod-node-name.yaml` manifest in the `01-node-selector` folder.
 
 Create the pod manifest `pod-node-name.yaml`
 ```yaml
@@ -159,7 +163,7 @@ kubectl label node node01 disktype=ssd
 ```
 
 #### Notes: 
-- There is no Node Anti-Affinity field. To define the node anti-affinity behaviour, we use the value of the operator parameter. The operator parameter can take values like: 
+- There is no **Node Anti-Affinity** field. To define the node anti-affinity behaviour, we use the value of the `operator` parameter. The `operator` parameter can take values like: 
     - In, 
     - NotIn, 
     - Exists, 
@@ -202,7 +206,7 @@ kubectl delete -f pod-node-anti-affinity.yaml
 
 #### Notes
 - You can define a pod with both hard and soft type
-- You can define pods with multiple node affinity constraints. open and verify the manifests `pod-with-preferred-node-affinity-multiple.yaml` and `pod-with-required-node-affinity-multiple.yaml`
+- You can define pods with multiple node affinity constraints. Open and verify the manifests `pod-with-preferred-node-affinity-multiple.yaml` and `pod-with-required-node-affinity-multiple.yaml`
 
 ### The Pod Affinity/Anti-Affinity
 
@@ -301,7 +305,7 @@ kubectl delete -f podA.yaml
 
 Just like the node affinity, it comes with a soft and a hard type (`preferredDuringSchedulingIgnoredDuringExecution`, `requiredDuringSchedulingIgnoredDuringExecution`)
 
-A usecase of pod affinity can be found in the manifest `pod-affinity-use-cases.yaml`
+**A good usecase of pod affinity can be found in the manifest `pod-affinity-use-cases.yaml`**
 
 ### Taints and tolerations
 
