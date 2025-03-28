@@ -1,10 +1,11 @@
 ## The Network policy
-By default, All traffic are allowed within the cluster: pods can accept traffic from any source within the cluster. 
+By default, **all traffic is allowed** within the cluster: pods can accept traffic from any source within the cluster. 
 
 To enhance security in a cluster, **Network Policy** can be used to restrict traffic to/from a specific Pod.
+
 When defining a network policy, we can specify the:
-- Incoming Traffic - Ingress
-- Outgoing Traffic - Egress
+- **Incoming Traffic - Ingress**
+- **Outgoing Traffic - Egress**
 
 ## Scenario: 
 
@@ -15,7 +16,7 @@ We want to deploy 3 pods in the cluster with the following specifications:
 - Apply a Network Policy that allows traffic to pod-a only from pod-b, blocking others.
 
 ## Solution
-1. Let's create the namespaces, the pods and the services to expose them using the content of the `ns-pods-svc.yaml` file
+1. Let's create the namespaces, the pods and the services to expose them using the content of the `01-ns-pods-svc.yaml` file
 
 The content should look like the following:
 
@@ -111,14 +112,14 @@ spec:
       port: 80
       targetPort: 80
 ```
-Apply the file in the cluster and verify the objects created
+2. Apply the file in the cluster and verify the objects created
 ```bash
-kubectl apply ns-pods-svc.yaml
+kubectl apply 01-ns-pods-svc.yaml
 kubectl get pods -A
 kubectl get svc -A
 ```
 
-Test the network connectivity from the pods
+3. Test the network connectivity from the pods
 - Test if pod-b can talk to pod-a
 
 ```bash
@@ -141,9 +142,9 @@ kubectl exec -n test-ns pod-a -- curl -m 3 http://google.com # Should work 200 O
 ```
 
 
-2. Create the Network policy to control the traffic
+4. Create the Network policy to control the traffic
 
-Create a file with the content of the manifest network-policy.yaml
+Create a file with the content of the manifest `network-policy.yaml`
 
 The content should look like the following
 
@@ -177,7 +178,7 @@ spec:
         - protocol: TCP
           port: 80
 ```
-This network policy specifies that pod-a can only accept traffic from pod-b and also can only send traffic to pod-b
+This network policy specifies that **pod-a can only accept traffic from pod-b** and also **pod-a can only send traffic to pod-b**
 
 Apply the file to the cluster and verify
 ```bash
@@ -186,7 +187,7 @@ kubectl get networkpolicy -A
 kubectl describe networkpolicy restrict-ingress-egress -n test-ns
 ```
 
-Test the network connectivity from the pods
+5. Test the network connectivity from the pods
 - Test if pod-b can talk to pod-a
 
 ```bash
@@ -218,7 +219,7 @@ Fist delete the network policy currently applied on the pods
 ```bash
 kubectl delete -f network-policy.yaml
 ```
-1. Apply Network Policy that allows all ingress and egress traffic in the test-ns
+1. Apply Network Policy that allows all ingress and egress traffic in the test-ns namespace
 
 Create the network policy using the content in the manifest `03-allow-all-ingress-egress.yaml`
 
