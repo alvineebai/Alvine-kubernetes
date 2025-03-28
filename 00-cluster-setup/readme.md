@@ -67,6 +67,8 @@ eksctl create cluster --name my-cluster --region us-east-1 --nodegroup-name my-n
 
 🚨 **WARNING:** If you encounter the following error `Error: invalid version, supported values: 1.19, 1.20, 1.21, 1.22 ...`, you need to upgrade your eksctl version. On Windows, run `choco upgrade eksctl`, or `brew upgrade eksctl` on Mac.
 
+🚨 **WARNING:** If you get an error `AlreadyExistsException: Stack[...]...` in your terminal when launching the cluster, just login to aws and delete the corresponding CloudFormation stack. You might need to forcefully delete it with the option **Force delete the entire stack**.
+
 ### Update the Kubeconfig
 
 After creating the cluster, you need to update the context in the local Kubeconfig file in order to interact with the cluster.
@@ -99,3 +101,11 @@ When done with practice, always delete resources to avoid further charges in the
 eksctl delete cluster --name my-cluster --region us-east-1
 ```
 After deleting the cluster, you can verify in Cloudformation that all the stacks related to the cluster creation were successfully deleted.
+
+
+
+#### (Optional) Cluster Setup with Terraform
+
+🚨 **WARNING:** We will not use this in class. This is just for your information.
+
+The following repository has a terraform code to launch EKS cluster: [Repo link here](https://github.com/utrains/provision-eks-cluster-with-terraform.git)
