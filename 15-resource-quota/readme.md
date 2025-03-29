@@ -6,6 +6,10 @@ When a cluster is shared by multiple teams, it becomes necessary to limit the am
 
 ## Practice
 1. Create a resource quota in the dev namespace (cpu: request = 1, limits =2, Memory: request=1Gi, limits=2Gi) an verify.
+- Create the namespace dev
+```bash
+kubectl create ns dev
+```
 - Create the resource quota using the content in the manifest `01-dev-quota.yaml`
 ```yaml
 apiVersion: v1
@@ -60,13 +64,13 @@ spec:
     image: nginx
     resources:
       limits:
-        memory: "800Mi"
-        cpu: "1000m"
+        memory: "300Mi"
+        cpu: "500m"
       requests:
-        memory: "600Mi"
+        memory: "200Mi"
         cpu: "350m"
 ---
-# Pod 3 in the dev namespace. This pod wont be created
+# Pod 3 in the dev namespace. This pod won't be created
 apiVersion: v1
 kind: Pod
 metadata:
@@ -144,6 +148,13 @@ spec:
   containers:
   - name: nginx
     image: nginx
+    resources:
+      limits:
+        memory: "300Mi"
+        cpu: "500m"
+      requests:
+        memory: "200Mi"
+        cpu: "350m"
 ```
 - Apply and verify the object created
 ```bash

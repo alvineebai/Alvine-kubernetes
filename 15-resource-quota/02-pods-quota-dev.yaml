@@ -28,10 +28,10 @@ spec:
     image: nginx
     resources:
       limits:
-        memory: "800Mi"
-        cpu: "1000m"
+        memory: "300Mi"
+        cpu: "500m"
       requests:
-        memory: "600Mi"
+        memory: "200Mi"
         cpu: "350m"
 ---
 # Pod 3 in the dev namespace. This pod wont be created
