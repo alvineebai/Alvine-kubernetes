@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: quota
+  name: quota-dev
   namespace: dev
 spec:
   hard:
@@ -9,3 +9,5 @@ spec:
     requests.memory: 1Gi
     limits.cpu: "2"
     limits.memory: 2Gi
+#
+# Here we define cpu and memory requests and limits that can be created in the dev namespace

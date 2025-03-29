@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-quota1-test
+  name: pod1-test
   namespace: test
 spec:
   containers:
@@ -14,3 +14,14 @@ spec:
       requests:
         memory: "600Mi"
         cpu: "350m"
+---
+# this pod won't be created
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2-test
+  namespace: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx

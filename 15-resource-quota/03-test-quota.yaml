@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: quota
+  name: quota-test
   namespace: test
 spec:
   hard:

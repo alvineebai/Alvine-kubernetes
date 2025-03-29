@@ -1,3 +1,4 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
 ## The Network policy
 By default, **all traffic is allowed** within the cluster: pods can accept traffic from any source within the cluster. 
 
@@ -211,62 +212,17 @@ kubectl exec -n test-ns pod-a -- curl -m 3 http://google.com # Should fail
 
 - Test if pod-a can access pod-c
 ```bash
-kubectl exec -n test-ns pod-a -- curl -m 3 http://pod-c-svc.test-ns # Should fail
+kubectl exec -n test-ns pod-a -- curl -m 3 http://pod-c-svc.dev-ns # Should fail
 ```
-## Practice allowing and denying all traffic
+**WARNING: This might not work accurately depending on the cluster on which you are working. Not all cluster networking system support network policies. Just try to understand the concept!**
+
+## Practice on denying all traffic
 
 Fist delete the network policy currently applied on the pods
 ```bash
 kubectl delete -f network-policy.yaml
 ```
-1. Apply Network Policy that allows all ingress and egress traffic in the test-ns namespace
-
-Create the network policy using the content in the manifest `03-allow-all-ingress-egress.yaml`
-
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-all-ingress
-  namespace: test-ns
-spec:
-  podSelector: {}
-  ingress:
-  - {}
-  policyTypes:
-  - Ingress
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-all-egress
-  namespace: test-ns
-spec:
-  podSelector: {}
-  egress:
-  - {}
-  policyTypes:
-  - Egress
-```
-Apply the file to the cluster and test
-```bash
-kubectl apply -f 03-allow-all-ingress-egress.yaml
-kubectl get networkpolicy -A
-# test pod-b to pod-a Should work (since all ingress is allowed)
-kubectl exec -n test-ns pod-b -- curl -m 3 http://pod-a-svc.test-ns
-# test pod-c to pod-a Should work (since all ingress is allowed)
-kubectl exec -n dev-ns pod-c -- curl -m 3 http://pod-a-svc.test-ns
-# test pod-a to pod-b Should work (since all egress is allowed).
-kubectl exec -n test-ns pod-a -- curl -m 3 http://pod-b-svc.test-ns
-# test pod-a to internet Should work (since all egress is allowed).
-kubectl exec -n test-ns pod-a -- curl -m 3 http://google.com
-```
-Delete the network policies
-```bash
-kubectl delete -f 03-allow-all-ingress-egress.yaml
-```
-
-2. Apply a Network Policy that DENIES ALL Ingress and Egress
+1. Apply a Network Policy that DENIES ALL Ingress and Egress
 
 
 Create the network policy using the content in the manifest `04-deny-all-ingress-egress.yaml`
