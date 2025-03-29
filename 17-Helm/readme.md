@@ -4,19 +4,19 @@ Helm is a package manager for kuberetes. See it as apt for ubuntu or yum for red
 
 With Helm, users can install, upgrade and uninstall applications on a Kubernetes cluster using few commands
 
-### Helm architecture and terminology
+### Helm 3 architecture and terminology
 
-- Helm client: command-line tool used to manage Kubernetes applications with Helm
-- Helm Chart: A package of Kubernetes resources (templates & configs) used to deploy an app.
-- Repository: A storage location for Helm charts (local or remote, public or private).
-- Release: A running instance of a chart in a Kubernetes cluster.
-- Release Namespace: The Kubernetes namespace where a release is deployed.
-- Values: Configurable parameters used to customize a chart’s deployment.
-- Template: Dynamic YAML files that generate Kubernetes resources using provided values.
-- Tiller: Deprecated server component in Helm 2 (removed in Helm 3).
-- Dependency: A chart that another chart relies on for deployment.
-- Upgrade: Updating an existing release with new chart versions or configs.
-- Rollback: Reverting a release to a previous working version.
+- **Helm client**: command-line tool used to manage Kubernetes applications with Helm
+- **Helm Chart:** A package of Kubernetes resources (templates & configs) used to deploy an app.
+- **Repository:** A storage location for Helm charts (local or remote, public or private).
+- **Release:** A running instance of a chart in a Kubernetes cluster.
+- **Release Namespace:** The Kubernetes namespace where a release is deployed.
+- **Values:** Configurable parameters used to customize a chart’s deployment.
+- **Template:** Dynamic YAML files that generate Kubernetes resources using provided values.
+- **Tiller**: Deprecated server component in Helm 2 (removed in Helm 3).
+- **Dependency**: A chart that another chart relies on for deployment.
+- **Upgrade**: Updating an existing release with new chart versions or configs.
+- **Rollback:** Reverting a release to a previous working version.
 
 ### Helm chart structure
 
@@ -73,26 +73,29 @@ You could get all these commands and more from the Helm cheat sheet: [Link here]
 
 ### Practice 1 : Use helm to install prometheus and grafana in your cluster for monitoring:
 
-1. 
+1. Add the prometheus helm repository
+```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
+```
 
-Create the namespace and install the app
+2. Create the namespace and install the app
+```bash
 kubectl create ns monitoring
 helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack
+```
 
-Use the prometheus grafana stack for monitoring kubernetes cluster live
-
+3. Use the prometheus grafana stack for monitoring kubernetes cluster live
+```bash
 kubectl get pods -n monitoring
 kubectl get svc -n monitoring   ## Get the details of prometheus-grafana service
 kubectl edit service prometheus-grafana -n monitoring # change to LoadBalancer
+```
 
-** Official gihub repo for prometheus and grafana
+**Official gihub repo for prometheus and grafana**
 https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 ### Lab 3: Create a Helm chart for a simple nginx app and deploy it in a cluster
-#### Prerequisites
-- Have Helm installed
 
 #### Steps
 1. Create the Chart
@@ -117,7 +120,6 @@ myapp/                    # Root directory of the Helm chart
 ├── .helmignore           # Files to ignore when packaging the chart
 ├── Chart.yaml            # Metadata about the Helm chart (name, version, description)
 ├── values.yaml           # Default configuration values for the chart
-├── values.schema.json    # JSON schema for values validation (optional)
 ├── README.md             # Documentation for the Helm chart
 ```
 2. Modify the values.yaml
