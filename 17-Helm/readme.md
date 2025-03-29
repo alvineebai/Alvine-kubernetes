@@ -127,7 +127,7 @@ myapp/                    # Root directory of the Helm chart
 Edit myapp/values.yaml and add or modify the following parameters
 
 ```yaml
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: nginx
@@ -141,7 +141,7 @@ service:
 
 3. Modify templates/deployment.yaml
 
-Edit templates/deployment.yaml:
+Open and go through the templates/deployment.yaml. You will get something like the following
 
 ```yaml
 apiVersion: apps/v1
@@ -166,7 +166,7 @@ spec:
 ```
 4. Modify templates/service.yaml
 
-Edit templates/service.yaml:
+Open and go through templates/service.yaml. You will get something like the following
 
 ```yaml
 apiVersion: v1
@@ -199,6 +199,8 @@ Modify values.yaml (e.g., change replicaCount to 3).
 Run:
 ```bash
 helm upgrade my-release myapp
+kubectl get pods
+kubectl get svc
 ```
 
 8. Rollback the Release
@@ -207,9 +209,13 @@ To roll back to a previous version:
 
 ```bash
 helm rollback my-release 1
+kubectl get pods
+kubectl get svc
 ```
 
 9. Uninstall the Release
 ```bash
 helm uninstall my-release
+kubectl get pods
+kubectl get svc
 ```
