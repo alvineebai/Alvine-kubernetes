@@ -1,20 +1,20 @@
 **Note: This practice should be done in the EKS cluster**
 
-## Persistent Storage in Kubernetes
+# Persistent Storage in Kubernetes
 
 - Volumes are important for data persistence and file sharing between pods.
 - **Persistent volumes (PVs)** are volume plugins managed by kubernetes
 - They are just like physical storage on a hard drive that are attached to your pods for data storage
 - A **Persistent Volume Claim (PVC)** is a request for storage (PV) by a user.
 
-### PV provisioning
+## PV provisioning
 
 PV Provisioning can be static or dynamic:
 
 - **Static:** The cluster administrator create a number of PVs of various type, users can then define PVCs to use the PV created.
 - **Dynamic:** kubernetes dynamically provision a volume for a specific PVC (using storage classes).
 
-### How to create a PV or a PVC
+## How to create a PV or a PVC
 When defining a PV or a PVC, there are some parameters we need to know:
 - The **PV name** in the metadata section
 - The **capacity** (storage size)
@@ -29,7 +29,7 @@ When defining a PV or a PVC, there are some parameters we need to know:
 - the **storage backend:** define the storage type (Example: NFS, csi, local ...)
 - the **storageClass name** (optional): for dynamic provisioning
 
-### Setting up dynamic provisioning in EKS cluster with EBS volumes
+## Setting up dynamic provisioning in EKS cluster with EBS volumes
 
 **Note:** The cluster used for this practice is the one created with `eksctl` in the `00-cluster-setup` folder.
 
@@ -146,7 +146,7 @@ If the pod is recreated on the same node, it should still have access to the dat
 
 To allow many nodes to mount a volume, you need to use another service like **Amazon EFS** that support **RWX**.
 
-### Setting up dynamic provisioning in EKS using Amazon EFS
+## Setting up dynamic provisioning in EKS using Amazon EFS
 
 #### Prerequisites
 

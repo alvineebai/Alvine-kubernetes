@@ -11,10 +11,10 @@ Note: This lab can be done on Minikube as well
 
 ## Enable dynamic storage provisioning in eks
 
-Note: The cluster used here was 
+**Note:** The cluster used here is the cluster create in AWS with eksctl.
 
 To be able to create persistent volumes for our apps, we need to make sure dynamic provisioning is enabled.
-Check the folder on persistent volumes to do that.(11-persistent-storage) 
+Check the folder on persistent volumes to do that.(`11-persistent-storage`) 
 
 ## Create and apply the YAML files
 ```bash
@@ -22,11 +22,6 @@ kubectl apply -f 01-secret.yaml
 kubectl apply -f 02-configmap.yaml
 kubectl apply -f 03-mysql-deployment.yaml
 kubectl apply -f 04-wordpress-deployment.yaml
-```
-Note: If you created a specific directory to hold all your yaml files, you can create the  objects with one command:
-Before running the below command, make sure the current dorectory is your app folder.
-```bash
-kubectl apply -f .
 ```
 ## Verify the objects created
 
@@ -51,6 +46,7 @@ Example
 kubectl port-forward svc/wordpress 8082:80
 ```
 Then access the app from the browser on http://localhost:8082
+[!](wordpress.png)
 
 ## Clean up
 

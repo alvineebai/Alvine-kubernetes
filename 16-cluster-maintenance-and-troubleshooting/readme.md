@@ -7,7 +7,7 @@ Maintenance and troubleshooting tasks include:
 - Cluster backup and upgrade
 - and more
 
-Note: These are operations made by cluster administrators. Maintenance operations may vary depending on how your cluster is setup (cloud or On-prem)
+Note: These operations executed by cluster administrators. Maintenance operations may vary depending on how your cluster is setup (cloud or On-prem)
 
 ### Preparing node for maintenance
 - **cordon node**: Mark the node as unschedulable. Running pods are not evicted.

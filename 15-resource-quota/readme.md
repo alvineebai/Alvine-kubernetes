@@ -1,3 +1,5 @@
+**Note**: This practice can be done on **Killercoda kubernetes playgrounds**
+
 ## Resource Quota in a cluster
 
 When a cluster is shared by multiple teams, it becomes necessary to limit the amount of resources that can be used by each team. Resource Quota allows you to limit resource usage in the cluster.

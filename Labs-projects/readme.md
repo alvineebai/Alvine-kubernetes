@@ -1,28 +1,9 @@
 # Kubernetes Labs
 
 ### Lab 1: Deploy a stateless web application in kubernetes cluster (redis + frontend)
-Objects used
-- pod
-- deployment
-- service
-
 ### Lab 2: Deploy Wordpress and MySQL with Persistent Volumes
-Objects used:
-- Pod
-- deployment
-- configmap
-- secret
-- PV
-- PVC
-- ingress
+### Lab 3: Deploy Worpress Using Helm
+### Lab 4: Deploy microservices in EKS with ingress enabled
+### Lab 5: Deploy a multi-tier application in EKS
 
-### Lab 3: Deploy a 3 tier application in k8s
-Objects used:
-- Pod
-- deployment
-- configmap
-- secret
-- PV
-- PVC
-- ingress
  
