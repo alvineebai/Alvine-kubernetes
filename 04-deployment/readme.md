@@ -196,4 +196,3 @@ To enable autoscaling for a deployment, we need a specific object called **HPA (
 - Reduce the load (the HPA should scale down the pods)
 - Clean up (optional)
 
-
