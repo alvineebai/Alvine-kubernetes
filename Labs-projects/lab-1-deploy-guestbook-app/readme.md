@@ -1,3 +1,5 @@
+**Note: This Lab should be done in the EKS cluster**
+
 ## Lab: Deploying PHP Guestbook application with Redis
 
 ### Description
@@ -19,19 +21,20 @@ Redis (Remote Dictionary Server) is an open-source, **in-memory** data store mak
 - **Data Persistence (Optional):** While Redis is in-memory, it can also persist data to disk, ensuring messages are not lost on restart.
 
 #### Architecture Overview
-**Redis Master:** Handles write operations and replicates data to followers.
-**Redis Follower:** Reads data replicated from the master and handles read operations.
-**Frontend Application:** A simple web interface that interacts with Redis (reads from the follower, writes to the master).
+- **Redis Master:** Handles write operations and replicates data to followers.
+- **Redis Follower:** Reads data replicated from the master and handles read operations.
+- **Frontend Application:** A simple web interface that interacts with Redis (reads from the follower, writes to the master).
 
-Simple architecture [link here](https://docs.google.com/document/d/1O4s68s_KeToxmBuZfkarkw4yWz-HQfLmnY6fA5TVHqA/edit?usp=sharing)
+![guestbook-architecture](guestbook-architecture.PNG)
+
 
 ### Lab Steps
 
 #### Deploy Redis leader
 
-Create and apply a Redis leader deployment (`01-redis-deployment-service.yaml`)
-Create and apply the Redis leader service to expose the master service for follower replication and frontend access.
-Check the file: `01-redis-deployment-service.yaml`
+- Create and apply a Redis leader deployment (`01-redis-deployment-service.yaml`)
+- Create and apply the Redis leader service to expose the master service for follower replication and frontend access.
+- Use the file: `01-redis-deployment-service.yaml`
 
 Apply the file
 ```bash
@@ -41,9 +44,9 @@ kubectl get deploy,svc,pods
 
 #### Deploy Redis Follower
 
-Create Redis follower deployment that replicate data from the master.
-Connect the follower pods to the master using replication settings.
-Apply the file
+- Create Redis follower deployment that replicate data from the master.
+- Connect the follower pods to the master using replication settings.
+- Apply the file `02-redis-follower-deployment-service.yaml`
 ```bash
 kubectl apply 02-redis-follower-deployment-service.yaml
 kubectl get deploy,svc,pods
@@ -53,33 +56,21 @@ kubectl get deploy,svc,pods
 
 Create and apply the frontend deployment and service for the php app
 
-Apply the file
+Apply the file `03-frontend-deployment-service.yaml`
 ```bash
 kubectl apply 03-frontend-deployment-service.yaml
 kubectl get deploy,svc,pods
 ```
 
 #### Test the Deployment
-- **If you are on your local machine and you used the normal ClusterIP type of service**
-You can use `kubectl port-forward` command to access the frontend from the browser
-Run the following command to forward port 8080 on your local machine to port 80 on the service.
-```bash
-kubectl port-forward svc/frontend 8080:80
-```
-
-The response should be similar to this:
-```bash
-Forwarding from 127.0.0.1:8080 -> 80
-Forwarding from [::1]:8080 -> 80
-```
-load the page http://localhost:8080 in your browser to view your guestbook
 
 - **If you used the LoadBalancer service for frontend** 
 Copy the external IP address on your frontend service, and load the page in your browser to view your guestbook.
 
 - **If your cluster is in EKS**
-Use the Loadbalancer DNS name under the EXTERNAL-IP column: http://<Lb-dns>
-Note: Remember to make sure the load balancer is delete when destroying your cluster after practice.
+Use the Loadbalancer DNS name under the **EXTERNAL-IP** column: http://<Lb-dns>. Remember to verify that the corresponding port is open in your node security group.
+
+**Note: Remember to make sure the load balancer is deleted when destroying your cluster after practice.**
 
 
 #### Scale the frontend deployment
@@ -91,6 +82,11 @@ kubectl get pods
 ```
 **Optional exercice:** Verify replication by checking if writes to the master appear in the follower.
 
+### Expected Outcome
+By the end of this lab, you will have a functional Redis replication setup with a frontend interacting with it. This setup is commonly used to improve scalability and performance in real-world applications.
+
+![guestbook app](guestbook.png)
+
 ### Clean up
 
 You can use labels to deploy multiple resources with one command. Run the following commands to delete all pods, deployments and services we disployed:
@@ -101,7 +97,3 @@ kubectl delete deployment frontend
 kubectl delete service frontend
 ```
 
-### Expected Outcome
-By the end of this lab, you will have a functional Redis replication setup with a frontend interacting with it. This setup is commonly used to improve scalability and performance in real-world applications.
-
-![guestbook app](guestbook.png)
