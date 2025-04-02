@@ -11,7 +11,7 @@ Verify the status of the metric server pods inn the `kube-system` namespace
 ```bash
 kubectl get pods -n kube-system
 ```
-## 2. Deploy a sample application
+## 2. Deploy a sample application with the hpa defined for the deployment
 
 ```yaml
 apiVersion: apps/v1
@@ -45,11 +45,25 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-```
-## 3. Create the HPA with the `kubernetes autoscale` command:
-
-```bash
-kubectl autoscale deployment nginx-deployment --cpu-percent=50 --min=2 --max=5
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
 ```
 
 - **cpu-percent=50**: The target average CPU utilization
