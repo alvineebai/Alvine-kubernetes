@@ -5,7 +5,7 @@ Kubernetes (K8s) is an open-source container orchestration platform that help to
 - Companies moved from **physical servers → VMs → containers → Kubernetes** to make applications run faster, more efficient (optimize resources usage), and easier to manage at scale.
 - companies are moving from **monolithic** app to **microservices** architecture increasing the usage of containers and the need to efficiently manage them in various environments.
 ## Kubernetes architecture
-Kubernetes has a ** Control plane - Worker** architecture:
+Kubernetes has a **Control plane** - **Worker** architecture:
 ### Control plane:
 The control plane manages the worker nodes and the pods in the cluster. It contains:
 - **API Server** – Entry point for commands (talks to users & other parts).
@@ -13,10 +13,10 @@ The control plane manages the worker nodes and the pods in the cluster. It conta
 - **Controller Manager** – Handles tasks like scaling & failures.
 - **etcd** – Stores all cluster data (like a database).
 
-**Note:** For clusters in the cloud, you also have a **Cloud controller manager** integrates that cloud-specific APIs with the cluster, managing resources like nodes, routes, and load balancers.
+**Note:** For clusters in the cloud, you also have a **Cloud controller manager** that integrates cloud-specific APIs with the cluster, managing resources like nodes, routes, and load balancers.
 ### Worker node (nodes):
 
-- **Kubelet** – Talks to the master, runs & manages containers.
+- **Kubelet** – Talks to the control plane to run and manage containers.
 - **Container Runtime** – Runs containers (e.g., Docker, containerd).
 - **Kube Proxy** – Manages network communication between containers.
 

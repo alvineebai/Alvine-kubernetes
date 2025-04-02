@@ -113,7 +113,7 @@ kubectl get nodes
 | `kubectl get services`                           | List all services in the defaut namespace                                            |
 | `kubectl proxy`                                  | Access the Kubernetes cluster dashboard (if set up).                            |
 
-### Delete the EKS Cluster
+## Delete the EKS Cluster
 
 When done with practice, always delete resources to avoid further charges in the cloud. Run this command only when you are done practicing 
 ```bash
@@ -123,7 +123,7 @@ After deleting the cluster, you can verify in Cloudformation that all the stacks
 
 
 
-#### (Optional) Cluster Setup with Terraform
+## (Optional) Cluster Setup with Terraform
 
 🚨 **WARNING:** We will not use this in class. This is just for your information.
 
