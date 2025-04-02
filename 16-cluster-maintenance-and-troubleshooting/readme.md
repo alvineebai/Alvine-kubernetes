@@ -16,7 +16,7 @@ Note: These operations executed by cluster administrators. Maintenance operation
 
 ### Cluster High availability
 
-In production environments, it is recommended to have many master nodes (odd numbers: 3, 5 ..) running for high availability.
+In production environments, it is recommended to have many nodes in the control plane (odd numbers: 3, 5 ..) running for high availability.
 
 ### Backing up a cluster
 For disaster recovery, it is important to backup cluster state periodically. This can be done by taking a snapshot of the etcd (`etcdctl snapshot save` with necessary parameters). To restore the state of the cluster, use `etcdctl snapshot restore` with necessary options.

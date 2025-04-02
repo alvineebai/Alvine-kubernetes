@@ -312,7 +312,7 @@ Just like the node affinity, it comes with a soft and a hard type (`preferredDur
 - Taints are properties set on nodes that allow them to repel a pod or a set of pods
 - Tolerations are properties set on pods that enables them to be scheduled on the nodes with the matching taints.
 
-**Note:** The master node is generally tainted in clusters.
+**Note:** The control plane node is generally tainted in clusters.
 
 #### How to taint a node
 
