@@ -13,4 +13,17 @@ Yon work without needing to use kubectl commands all the time.
 
 ### Install Lens
 
-Follow this github repository to install OpenLens on your system: [Link here](https://github.com/MuhammedKalkan/OpenLens.git)
+1. On Windows
+you can use `choco` to install OpenLens on Windows:
+
+```bash
+choco install -y openlens
+```
+
+2. On Mac 
+
+you can use `Homebrew` to install OpenLens on Windows:
+
+```bash
+brew install --cask openlens
+```
