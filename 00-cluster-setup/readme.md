@@ -6,7 +6,7 @@ Most of the practice in this repository can be done using kubernetes playgrounds
 
 **Note:** A recommended prerequisite to using Killercoda is to have a Github account. If you are at this level of the class, you should have an account.
 
-1. In your browser, go to the Killercoda official website at [https://killercoda.com/]().
+1. In your browser, go to the Killercoda official website at [https://killercoda.com/](https://killercoda.com/).
 2. Click on Playgrounds.
 3. Select the latest Kubernetes playground (Kubernetes 1.32 at the moment of writing this documentation).
 4. Sign in using your GitHub account. (You can also sign in using google or your email).
@@ -32,8 +32,27 @@ Before proceeding, ensure that you have the following prerequisites:
 
 **kubectl:** is the Kubernetes command-line tool used to interact with the cluster. You can install it following [the instructions here](https://kubernetes.io/docs/tasks/tools/#kubectl).
 
-**Note:** You can use [choco on windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/#install-nonstandard-package-tools) or [brew on Mac](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-with-homebrew-on-macos)
+**Note:** You can use ``choco`` on windows or ``brew`` on Mac
 
+**1. On Windows with choco**
+```bash
+choco install kubernetes-cli
+```
+
+After successful installation, run the following command to verify the version installed:
+```bash
+kubectl version --client
+```
+
+**2. On Mac with Homebrew**
+
+```bash
+brew install kubectl
+```
+or
+```bash
+brew install kubernetes-cli
+```
 After successful installation, run the following command to verify the version installed:
 ```bash
 kubectl version --client

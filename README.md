@@ -5,20 +5,22 @@ Kubernetes (K8s) is an open-source container orchestration platform that help to
 - Companies moved from **physical servers → VMs → containers → Kubernetes** to make applications run faster, more efficient (optimize resources usage), and easier to manage at scale.
 - companies are moving from **monolithic** app to **microservices** architecture increasing the usage of containers and the need to efficiently manage them in various environments.
 ## Kubernetes architecture
-Kubernetes has a **Master-Worker** architecture:
-### Master node (control plane):
+Kubernetes has a ** Control plane - Worker** architecture:
+### Control plane:
 The control plane manages the worker nodes and the pods in the cluster. It contains:
 - **API Server** – Entry point for commands (talks to users & other parts).
 - **Scheduler** – Decides where to run new containers.
 - **Controller Manager** – Handles tasks like scaling & failures.
 - **etcd** – Stores all cluster data (like a database).
+
+**Note:** For clusters in the cloud, you also have a **Cloud controller manager** integrates that cloud-specific APIs with the cluster, managing resources like nodes, routes, and load balancers.
 ### Worker node (nodes):
 
 - **Kubelet** – Talks to the master, runs & manages containers.
 - **Container Runtime** – Runs containers (e.g., Docker, containerd).
 - **Kube Proxy** – Manages network communication between containers.
 
-NB: master also has **kubelet, kube-proxy and container runtime** because it runs some system pods 
+NB: control plane node also has **kubelet, kube-proxy and container runtime** because it runs some system pods 
 ### Pods
 Smallest unit in K8s, holds one or more containers.
 
@@ -77,4 +79,4 @@ The repo is organized and ordered for you to practice the concepts progressively
 
 In each folder, you will find a readme file to help you understand the concept and practice.
 
-**Note**: All the files mentioned in the readme ca be directly found in the same folder. Just use the content of those files if no other specification is given.
+**Note**: All the files mentioned in the **readme** can be directly found in the same folder. Just use the content of those files if no other specification is given.
