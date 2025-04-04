@@ -38,7 +38,7 @@ Redis (Remote Dictionary Server) is an open-source, **in-memory** data store mak
 
 Apply the file
 ```bash
-kubectl apply 01-redis-leader-deployment-service.yaml
+kubectl apply -f 01-redis-leader-deployment-service.yaml
 kubectl get deploy,svc,pods
 ```
 
@@ -48,7 +48,7 @@ kubectl get deploy,svc,pods
 - Connect the follower pods to the master using replication settings.
 - Apply the file `02-redis-follower-deployment-service.yaml`
 ```bash
-kubectl apply 02-redis-follower-deployment-service.yaml
+kubectl apply -f 02-redis-follower-deployment-service.yaml
 kubectl get deploy,svc,pods
 ```
 
@@ -58,17 +58,14 @@ Create and apply the frontend deployment and service for the php app
 
 Apply the file `03-frontend-deployment-service.yaml`
 ```bash
-kubectl apply 03-frontend-deployment-service.yaml
+kubectl apply -f 03-frontend-deployment-service.yaml
 kubectl get deploy,svc,pods
 ```
 
 #### Test the Deployment
 
-- **If you used the LoadBalancer service for frontend** 
-Copy the external IP address on your frontend service, and load the page in your browser to view your guestbook.
-
-- **If your cluster is in EKS**
-Use the Loadbalancer DNS name under the **EXTERNAL-IP** column: http://<Lb-dns>. Remember to verify that the corresponding port is open in your node security group.
+- **If your cluster is in EKS with Loadbalancer service**
+Use the Loadbalancer DNS name under the **EXTERNAL-IP** column: http://<Lb-dns> to access the app in the browser. Remember to verify that the corresponding port is open in your node security group if you get an error.
 
 **Note: Remember to make sure the load balancer is deleted when destroying your cluster after practice.**
 

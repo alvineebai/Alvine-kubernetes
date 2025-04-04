@@ -1,3 +1,5 @@
+**Note: In this lab we will use the cluster deployed with eksctl in EKS. You will also need to enable dynamic storage provisioning using EBS**
+
 # Lab 3: Deploying WordPress and MySQL with Persistent Volumes (updated)
 
 In this Lab, we will deploy wordpress and mysql in Kubernetes using persistent storage.
@@ -14,9 +16,9 @@ Note: This lab can be done on Minikube as well
 **Note:** The cluster used here is the cluster create in AWS with eksctl.
 
 To be able to create persistent volumes for our apps, we need to make sure dynamic provisioning is enabled.
-Check the folder on persistent volumes to do that.(`11-persistent-storage`) 
+Check the folder on persistent volumes to do that.(`11-persistent-storage`). Use `EBS` volumes. 
 
-## Create and apply the YAML files
+## Create and apply the YAML files to deploy the app
 ```bash
 kubectl apply -f 01-secret.yaml
 kubectl apply -f 02-configmap.yaml
@@ -27,7 +29,7 @@ kubectl apply -f 04-wordpress-deployment.yaml
 
 To list all the objects created, use the command
 ```bash
-kubectl get all
+kubectl get secret,cm,deployment,pods,svc
 ```
 
 ## Test the app
@@ -40,12 +42,8 @@ You can access the app from your browser
 http://<EXTERNAL-IP>:<PORT>
 ```
 **Note:** If you used a service of Type **LoadBalancer**, you just need to use the Loadbalancer name provided.
-**Note:** If you are on minikube, you need to use `kubectl port-forward` command to make the service accessible from your localhost.
-Example
-```bash
-kubectl port-forward svc/wordpress 8082:80
-```
-Then access the app from the browser on http://localhost:8082
+
+### Expected result:
 [!](wordpress.png)
 
 ## Clean up
