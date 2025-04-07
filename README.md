@@ -28,7 +28,8 @@ Smallest unit in K8s, holds one or more containers.
    - **CRI** → Manages containers
    - **CNI** → Handles networking
    - **CSI** → Manages storage.
-1. CRI (Container Runtime Interface
+
+1. CRI (Container Runtime Interface)
 - Enables Kubernetes to use different container runtimes (e.g., containerd, CRI-O, Docker).
 - Defines how Kubernetes interacts with the runtime to manage containers.
 - Decouples Kubernetes from specific runtimes for flexibility.
@@ -37,6 +38,7 @@ Smallest unit in K8s, holds one or more containers.
 - Standard for configuring networking in Kubernetes pods.
 - Plugins (e.g., Calico, Flannel, Cilium) handle IP allocation, routing, and network policies.
 - Ensures pods can communicate within and outside the cluster.
+
 3. CSI (Container Storage Interface)
 - Allows Kubernetes to integrate with external storage systems (e.g., AWS EBS, NFS, Ceph).
 - Standardizes how storage is provisioned, attached, and mounted to pods.
