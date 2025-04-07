@@ -24,6 +24,24 @@ NB: control plane node also has **kubelet, kube-proxy and container runtime** be
 ### Pods
 Smallest unit in K8s, holds one or more containers.
 
+## Kubernetes Plugins or Kubernetes Interfaces
+   - **CRI** → Manages containers
+   - **CNI** → Handles networking
+   - **CSI** → Manages storage.
+1. CRI (Container Runtime Interface
+- Enables Kubernetes to use different container runtimes (e.g., containerd, CRI-O, Docker).
+- Defines how Kubernetes interacts with the runtime to manage containers.
+- Decouples Kubernetes from specific runtimes for flexibility.
+
+2. CNI (Container Network Interface)
+- Standard for configuring networking in Kubernetes pods.
+- Plugins (e.g., Calico, Flannel, Cilium) handle IP allocation, routing, and network policies.
+- Ensures pods can communicate within and outside the cluster.
+3. CSI (Container Storage Interface)
+- Allows Kubernetes to integrate with external storage systems (e.g., AWS EBS, NFS, Ceph).
+- Standardizes how storage is provisioned, attached, and mounted to pods.
+- Enables dynamic volume provisioning and snapshots.
+
 ## Key features of kubernetes
 - **Autoscaling** – Increases or decreases containers based on traffic.
 - **Self-Healing** – Restarts failed containers, replaces unhealthy ones.
