@@ -12,8 +12,8 @@ The control plane manages the worker nodes and the pods in the cluster. It conta
 - **Scheduler** – Decides where to run new containers.
 - **Controller Manager** – Handles tasks like scaling & failures.
 - **etcd** – Stores all cluster data (like a database).
+- **Cloud controller manager**  - ( for cloud cluster. this is in case kubernetes needs to create ressources in the cloud )
 
-**Note:** For clusters in the cloud, you also have a **Cloud controller manager** that integrates cloud-specific APIs with the cluster, managing resources like nodes, routes, and load balancers.
 ### Worker node (nodes):
 
 - **Kubelet** – Talks to the control plane to run and manage containers.
