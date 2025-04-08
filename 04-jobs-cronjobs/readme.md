@@ -6,6 +6,15 @@ This covers the basics to get you started with Kubernetes Jobs and CronJobs!
 
 Jobs run tasks that complete and stop (like backups or data processing). CronJobs are Jobs that run on a schedule (like daily reports).
 
+**Main Use Cases:**
+- Batch processing
+- Data transformations and migrations
+- Database backups
+- Sending emails
+- Rendering tasks
+- Scientific computations
+- Any finite task that needs to run to completion
+
 ## Simple Job Example
 
 ```yaml
