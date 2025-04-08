@@ -23,6 +23,10 @@ kind: Job
 metadata:
   name: simple-job
 spec:
+  completions: 1                          # How many Pods should run to completion
+  parallelism: 1                          # How many Pods can run in parallel
+  backoffLimit: 2                         # Number of retries before job is marked as failed
+  ttlSecondsAfterFinished: 50             # Time to keep job after completion (in seconds)
   template:
     spec:
       containers:
