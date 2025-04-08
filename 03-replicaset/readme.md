@@ -36,7 +36,7 @@ spec:
 
 - Apply the file in the cluster and verify the created objects
 ```bash 
-kubectl create -f replicaset-for-pods.yaml
+kubectl apply -f replicaset-for-pods.yaml
 # check the replicaset
 kubectl get rs
 # Check the pods
