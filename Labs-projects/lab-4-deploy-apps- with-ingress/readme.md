@@ -11,11 +11,11 @@ To use the ingress resource, you must configure an ingress controller such as in
 - Load Balancing – Distributes traffic across multiple services.
 
 ## How Ingress Works
-1- User sends a request to myapp.com/api.
-2- Request reaches Ingress (single entry point).
-3- Ingress checks rules and routes traffic.
-4- Request is sent to the correct service inside the cluster.
-5- The response is sent back to the user.
+1. User sends a request to myapp.com/api.
+2. Request reaches Ingress (single entry point).
+3. Ingress checks rules and routes traffic.
+4. Request is sent to the correct service inside the cluster.
+5. The response is sent back to the user.
 
 ## Practice
 
