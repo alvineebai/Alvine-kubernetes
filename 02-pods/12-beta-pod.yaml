@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: beta-pod
+  labels:
+    app: payment-service
+    tier: backend
+    environment: production
+  annotations:
+    # Used by monitoring tools (Prometheus, Datadog, etc.)
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    # used for CI/CD tracking
+    git.commit: "a1b2c3d"
+    build.timestamp: "2024-05-20T12:34:56Z"
+spec:
+  # node selector to Restrict to Linux nodes (avoid scheduling on Windows)
+  nodeSelector:
+    kubernetes.io/os: linux
+  # Security context: Run as non-root user
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 2000
+    allowPrivilegeEscalation: false
+    privileged: false
+  # Graceful shutdown (30s)
+  terminationGracePeriodSeconds: 30
+  containers:
+  - name: payment-service
+    image: company-registry.example.com/payment-service:v1.2.3
+    imagePullPolicy: IfNotPresent
+    # Health checks
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    # Resource limits 
+    resources:
+      requests:
+        cpu: "500m"    # 0.5 CPU cores
+        memory: "512Mi"
+      limits:
+        cpu: "1000m"   # 1 CPU core
+        memory: "1Gi"
+    # Environment variables (secrets via Kubernetes Secrets)
+    env:
+    - name: DB_HOST
+      value: "postgres.production.svc.cluster.local"
+    - name: DB_PORT
+      value: "5432"
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: payment-secrets
+          key: api-key
+    # Volume mounts (for configs, logs, etc.)
+    volumeMounts:
+    - name: config-volume
+      mountPath: /app/config
+    - name: logs-volume
+      mountPath: /var/log/payment-service
+  # Volumes (ConfigMap + Persistent Storage)
+  volumes:
+  - name: config-volume
+    configMap:
+      name: payment-config
+  - name: logs-volume
+    persistentVolumeClaim:
+      claimName: payment-logs-pvc

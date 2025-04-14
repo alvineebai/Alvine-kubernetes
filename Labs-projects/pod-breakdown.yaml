@@ -1,0 +1,98 @@
+apiVersion: v1 #-----------------------------------------------API version for the pod definition
+kind: Pod  #-------------------------------------------------- Defines the type of object as Pod
+metadata: #--------------------------------------------------- Add data about the object
+  name: example-pod  #---------------------------------------- The name of the pod
+  labels: #--------------------------------------------------- To identify, organize and select pods
+    app: myapp  #--------------------------------------------- A label assigned to identify the role of the pod
+    tier: backend #------------------------------------------- Label to identify the app layer
+  namespace: my-namespace #----------------------------------- Specifies the namespace where the pod will be created
+
+spec: #-------------------------------------------------------- Specifications of the pod
+  containers: #------------------------------------------------ containers that will run in the pod
+    - name: my-container  #----------------------------------- Name of the Main container inside the pod
+      image: nginx:latest  #---------------------------------- Docker image for the container
+      ports:
+        - containerPort: 80  #-------------------------------- Port the container will listen on
+      volumeMounts:
+        - name: config-volume  #------------------------------ Mounts the ConfigMap as a volume
+          mountPath: /etc/config  #--------------------------- Location where the config will be mounted
+        - name: secret-volume  #------------------------------ Mounts the Secret as a volume
+          mountPath: /etc/secrets  #-------------------------- Location where the secret will be mounted
+      livenessProbe:  #--------------------------------------- Liveness probe to check if the container is still running
+        httpGet:
+          path: /healthz  #----------------------------------- The HTTP endpoint to check
+          port: 80  #----------------------------------------- Port to send the HTTP request
+        initialDelaySeconds: 5  #----------------------------- Delay before the first probe is initiated
+        periodSeconds: 10  #---------------------------------- How often the probe is performed (in seconds)
+        timeoutSeconds: 2  #---------------------------------- Timeout for each probe
+        successThreshold: 1  #-------------------------------- Number of successes required before considering the probe successful
+        failureThreshold: 3  #-------------------------------- Number of failures required before considering the probe failed
+
+      readinessProbe:  #-------------------------------------- Readiness probe to check if the container is ready to serve traffic
+        httpGet:
+          path: /readiness  #--------------------------------- The HTTP endpoint to check
+          port: 80  #----------------------------------------- Port to send the HTTP request
+        initialDelaySeconds: 5  #----------------------------- Delay before the first probe is initiated
+        periodSeconds: 10  #---------------------------------- How often the probe is performed (in seconds)
+        timeoutSeconds: 2  #---------------------------------- Timeout for each probe
+        successThreshold: 1  #-------------------------------- Number of successes required before considering the probe successful
+        failureThreshold: 3  #-------------------------------- Number of failures required before considering the probe failed
+
+  volumes:  #------------------------------------------------- Volumes to be used in the pod
+    - name: config-volume  #---------------------------------- ConfigMap volume
+      configMap:
+        name: my-config  #------------------------------------ Refers to a ConfigMap named `my-config`
+    - name: secret-volume  #---------------------------------- Secret volume
+      secret:
+        secretName: my-secret  #------------------------------ Refers to a Secret named `my-secret`
+    - name: pvc-volume  #------------------------------------- Persistent Volume Claim volume
+      persistentVolumeClaim:
+        claimName: my-pvc  #---------------------------------- Refers to a PersistentVolumeClaim named `my-pvc` attached to the pod
+  restartPolicy: Always  #------------------------------------ Defines the restart policy for the pod (Always, OnFailure, Never)
+  
+  nodeSelector:  #-------------------------------------------- Node selector to specify which node the pod should run on
+    disktype: ssd  #------------------------------------------ This pod will be scheduled on nodes that have a label `disktype: ssd`
+  
+  affinity:  #------------------------------------------------ Affinity rules to control the scheduling based on node labels
+    nodeAffinity: #------------------------------------------- node affinity specifications
+      requiredDuringSchedulingIgnoredDuringExecution: #------- hard type of node affiity
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: "disktype"  #-------------------------------- Key of the label to match
+            operator: In  #----------------------------------- The operator to apply (In, NotIn, Exists, DoesNotExist, etc.)
+            values:
+            - ssd  #------------------------------------------ Values to match for the node's label
+    podAffinity:  #------------------------------------------- Affinity rules to ensure pods are scheduled together on the same node
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app  #----------------------------------- Match pods with label `app: myapp`
+                operator: In
+                values:
+                - myapp
+          topologyKey: kubernetes.io/hostname  #-------------- Ensures that the pods will run on the same node
+  
+  tolerations:  #--------------------------------------------- Tolerations to allow the pod to run on tainted nodes
+    - key: "key1"  #------------------------------------------ The taint key
+      operator: "Equal"  #------------------------------------ Operator for taint matching
+      value: "value1"  #-------------------------------------- The taint value
+      effect: "NoSchedule"  #--------------------------------- Effect of the taint (NoSchedule, NoExecute, PreferNoSchedule)
+  
+  securityContext:  #----------------------------------------- Security context for the pod to control security settings
+    runAsUser: 1000  #---------------------------------------- Run as user with UID 1000
+    runAsGroup: 3000  #--------------------------------------- Run as group with GID 3000
+    fsGroup: 2000  #------------------------------------------ File system group for volumes
+    allowPrivilegeEscalation: false  #------------------------ Disallow privilege escalation (no privilege higher that the parent's one)
+  
+  initContainers:  #------------------------------------------ Init containers are run before the main containers in the pod
+    - name: init-container
+      image: busybox:1.28
+      command: ["sh", "-c", "echo 'Initializing'; sleep 5"]  # A simple initialization task
+
+  resources:  #----------------------------------------------- Specifies the resource limits and requests for the container
+    requests:
+      memory: "64Mi"  #--------------------------------------- Memory request for the container
+      cpu: "250m"  #------------------------------------------ CPU request for the container
+    limits:
+      memory: "128Mi"  #-------------------------------------- Maximum memory the container can use
+      cpu: "500m"  #------------------------------------------ Maximum CPU the container can use

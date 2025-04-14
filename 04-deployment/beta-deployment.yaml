@@ -1,0 +1,190 @@
+# API Version and Deployment Type Declaration
+apiVersion: apps/v1  # Using the stable apps/v1 API
+kind: Deployment      # This defines a Deployment controller
+
+# ========== Deployment Metadata ==========
+metadata:
+  name: payment-service  # Name of the deployment
+  namespace: production  # Namespace for logical isolation
+  labels:                # Labels for organization/filtering
+    app: payment-service # Application identifier
+    tier: backend        # Tier classification (frontend/backend)
+    team: fintech        # Team ownership
+  
+  # Annotations (non-identifying metadata)
+  annotations:
+    git.commit: "abc1234"                 # Track which code version is deployed
+    build.timestamp: "2024-05-21T10:30:00Z"  # When this was built
+
+# ========== Deployment Specification ==========
+spec:
+  replicas: 3  # Maintain 3 identical pods for high availability
+  
+  # How many old ReplicaSets to retain for rollback
+  revisionHistoryLimit: 5
+  
+  # Update strategy configuration
+  strategy:
+    type: RollingUpdate       # Gradually replace old pods with new ones
+    rollingUpdate:
+      maxSurge: 25%          # Can temporarily create 25% extra pods during update
+      maxUnavailable: 0       # Never have fewer than 100% available pods
+  
+  # Label selector for which pods this deployment manages
+  selector:
+    matchLabels:
+      app: payment-service  # Must match the pod template's labels
+
+  # ========== Pod Template ==========
+  template:
+    metadata:
+      labels:
+        app: payment-service  # Must match selector above
+        version: v1.3.0       # Version tag for canary/blue-green deployments
+      
+      # Monitoring system annotations
+      annotations:
+        prometheus.io/scrape: "true"   # Allow Prometheus scraping
+        prometheus.io/port: "8080"     # Metrics endpoint port
+        prometheus.io/path: "/metrics" # Metrics endpoint path
+
+    # ===== Pod Specification =====
+    spec:
+      # ========== Security Context (Pod Level) ==========
+      securityContext:
+        runAsNonRoot: true    # Critical security - never run as root user
+        runAsUser: 10000      # Specific non-root user ID (must exist in container)
+        runAsGroup: 30000     # Specific non-root group ID
+        fsGroup: 20000        # Filesystem group ownership
+        fsGroupChangePolicy: "OnRootMismatch"  # Only change permissions if root-owned
+        seccompProfile:       # System call filtering
+          type: RuntimeDefault # Use container runtime's default secure profile
+      
+      # Service account for API access control
+      serviceAccountName: payment-service-account
+      
+      # Only mount service account token if pod needs Kubernetes API access
+      automountServiceAccountToken: false  
+      
+      # ========== Scheduling Rules ==========
+      affinity:
+        podAntiAffinity:  # Spread pods across nodes for high availability
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100   # Strong preference (but not required)
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values: [payment-service]
+              topologyKey: "kubernetes.io/hostname"  # Spread across different nodes
+      
+      # Tolerations for node taints (if using specialized nodes)
+      tolerations:
+      - key: "dedicated"
+        operator: "Equal"
+        value: "fintech"   # Only run on nodes with this taint
+        effect: "NoSchedule"
+
+      # ========== Container Definition ==========
+      containers:
+      - name: payment-service  # Container name (shows in logs)
+        image: registry.gitlab.com/company/payment-service:v1.3.0@sha256:abc123...
+        imagePullPolicy: IfNotPresent  # Only pull if not locally cached
+        
+        # ===== Container Security =====
+        securityContext:
+          allowPrivilegeEscalation: false  # Prevent gaining more privileges
+          readOnlyRootFilesystem: true     # Immutable container (except mounted volumes)
+          capabilities:
+            drop: ["ALL"]                 # Remove ALL Linux capabilities
+            add: ["NET_BIND_SERVICE"]      # Only allow binding to ports <1024
+          privileged: false                # Never run in privileged mode
+        
+        # ===== Network Ports =====
+        ports:
+        - containerPort: 8080  # HTTP port
+          name: http           # Named port for service discovery
+          protocol: TCP
+        - containerPort: 8443  # HTTPS port
+          name: https
+          protocol: TCP
+        
+        # ===== Resource Management =====
+        resources:
+          requests:  # Minimum required resources
+            cpu: "500m"         # 0.5 CPU cores
+            memory: "512Mi"     # 512 MB RAM
+            ephemeral-storage: "1Gi"  # Local disk space
+          limits:    # Maximum allowed resources
+            cpu: "2000m"        # 2 CPU cores
+            memory: "2Gi"       # 2 GB RAM
+            ephemeral-storage: "5Gi"
+        
+        # ===== Health Checks =====
+        livenessProbe:   # Is container running properly?
+          httpGet:
+            path: /healthz  # Custom health endpoint
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30  # Wait 30s after startup
+          periodSeconds: 10        # Check every 10s
+          timeoutSeconds: 5        # Timeout after 5s
+          failureThreshold: 3      # Mark unhealthy after 3 failures
+        
+        readinessProbe:  # Is container ready to serve traffic?
+          httpGet:
+            path: /readyz  # Separate from health endpoint
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5   # Faster than liveness
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        
+        # ===== Environment Variables =====
+        env:
+        - name: ENV  # Inject namespace as environment variable
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP  # Useful for debugging
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: DB_URL  # From ConfigMap
+          valueFrom:
+            configMapKeyRef:
+              name: payment-config
+              key: db.url
+        - name: API_KEY  # From Secret (encrypted)
+          valueFrom:
+            secretKeyRef:
+              name: payment-secrets
+              key: api-key
+        
+        # ===== Volume Mounts =====
+        volumeMounts:
+        - name: config       # Mount ConfigMap as volume
+          mountPath: /etc/config
+          readOnly: true      # Prevent modifications
+        - name: tmp           # Ephemeral storage
+          mountPath: /tmp     # For temporary files
+        - name: logs          # Persistent logs
+          mountPath: /var/log
+
+      # ===== Volumes =====
+      volumes:
+      - name: config  # Configuration files
+        configMap:
+          name: payment-config
+          items:
+          - key: application.yaml  # Specific file from ConfigMap
+            path: config/application.yaml  # Mount path
+      - name: tmp     # Temporary storage
+        emptyDir:     # Created when pod starts, deleted when pod ends
+          sizeLimit: 500Mi  # Prevent disk exhaustion
+      - name: logs    # Persistent logs
+        persistentVolumeClaim:
+          claimName: payment-logs-pvc  # Uses existing PVC
+          readOnly: false

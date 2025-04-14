@@ -11,24 +11,24 @@ To use the ingress resource, you must configure an ingress controller such as in
 - Load Balancing – Distributes traffic across multiple services.
 
 ## How Ingress Works
-1- User sends a request to myapp.com/api.
-2- Request reaches Ingress (single entry point).
-3- Ingress checks rules and routes traffic.
-4- Request is sent to the correct service inside the cluster.
-5- The response is sent back to the user.
+1. User sends a request to myapp.com/api.
+2. Request reaches Ingress (single entry point).
+3. Ingress checks rules and routes traffic.
+4. Request is sent to the correct service inside the cluster.
+5. The response is sent back to the user.
 
 ## Practice
 
 ### Prerequisites
-
+The following prerequisites are necessary to complete this Lb.
 - **Tools Installed**: eksctl, kubectl, aws CLI (configured with credentials).
-- **Domain:** Already in Route 53 (e.g., example.com).
-- **ACM Certificate**: Ready in AWS ACM for your domain  and subdomains (e.g., *.example.com).
-- **Cluster:** Deployed with eksctl
+- **Domain:** create a domain in Route 53 (e.g., example.com). If you already have one, you can use it.
+- **ACM Certificate**: Create ACM certificate for your domain and subdomains (e.g., *.example.com). If you already have it, you can skip this step
+- **Cluster:** Deploy a cluster with eksctl
 ```bash
  eksctl create cluster --name dev-cluster --region us-east-1 --nodegroup-name dev-nodes --node-type t3.small --nodes 2 --nodes-min 1 --nodes-max 2
 ```
-- kubeconfig Updated:
+- **kubeconfig Updated**: update your kubeconfig to access the cluster
 ```bash
 aws eks update-kubeconfig --region us-east-1 --name dev-cluster
 ```
@@ -52,7 +52,7 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policydocument file://iam_policy.json
 ```
 
-3. Create an IAM role and ServiceAccount for the controller: Do not forget to add your aws id 
+3. Create an IAM role and ServiceAccount for the controller: Do not forget to replace ``your-account-id`` with your aws account ID 
 ```bash
 eksctl create iamserviceaccount --cluster=dev-cluster --namespace=kube-system --name=aws-load-balancer-controller --attach-policy-arn=arn:aws:iam::<your-account-id>:policy/AWSLoadBalancerControllerIAMPolicy --override-existing-serviceaccounts --region us-east-1 --approve
 ```
@@ -146,7 +146,7 @@ spec:
   selector:
     app: app2
 ```
-Ingress resource manifest
+Ingress resource manifest. Add your certificate ARN in the annotations section, replace the host with your actual subdomain names before applying the manifest
 ```yaml
 #ingress.yaml
 apiVersion: networking.k8s.io/v1
@@ -184,10 +184,9 @@ spec:
 ```
 
 **Important notes:**
-•  Replace <your-region>, <your-cluster-name>, <your-account-id>, and <your-acm-certificate-arn> with your actual values
+•  Replace ``your-region``, ``your-cluster-name``, ``your-account-id``, and ``your-acm-certificate-arn`` with your actual values
 •  Make sure you have a valid SSL certificate in AWS Certificate Manager (ACM) for your domain
 •  Update the hostnames in the ingress configuration to match your actual domain names
-•  DNS records should be created/updated to point your domains to the ALB DNS name (you can get this after the ingress is created)
 
 ```bash
 kubectl apply -f app1.yaml 
@@ -197,10 +196,13 @@ kubectl get pods -n kube-system | grep "aws-load-balancer-controller"
 kubectl get ingress
 kubectl get svc
 ```
-
+After applying the manifests in the cluster, you need to create/update the DNS records in Route 53 to point your domains to the ingress address (you can get this after the ingress is created)
+```bash
+kubectl get ingress
+```
 # Test 
 
-Try to hit all different sub domain for your app
+Try to hit all different sub domain for your app in the browser
 ```bash
 app1.yourdomain.com
 app2.yoursomain.com 
