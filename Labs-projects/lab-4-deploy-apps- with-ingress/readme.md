@@ -21,8 +21,7 @@ To use the ingress resource, you must configure an ingress controller such as in
 
 ### Prerequisites
 The following prerequisites are necessary to complete this Lb.
-- **Tools Installed**: eksctl, kubectl, aws CLI (configured with credentials).
-- **Domain:** create a domain in Route 53 (e.g., example.com). If you already have one, you can use it.
+- **Domain:** create a hosted zone in route 53 with your domain (e.g., example.com). If you already have one, you can use it.
 - **ACM Certificate**: Create ACM certificate for your domain and subdomains (e.g., *.example.com). If you already have it, you can skip this step
 - **Cluster:** Deploy a cluster with eksctl
 ```bash
