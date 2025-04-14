@@ -12,7 +12,6 @@ Jobs run tasks that complete and stop (like backups or data processing). CronJob
 - Database backups
 - Sending emails
 - Rendering tasks
-- Scientific computations
 - Any finite task that needs to run to completion
 
 ## Simple Job Example
