@@ -1,3 +1,4 @@
+### pvc definition
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -5,12 +6,12 @@ metadata:
   labels:
     app: wordpress
 spec:
-  storageClassName: gp2
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany  # RWX for many nodes
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi  # size (EFS is elastic thus adjust automatically)
+  storageClassName: efs-sc
 ---
 apiVersion: apps/v1
 kind: Deployment
