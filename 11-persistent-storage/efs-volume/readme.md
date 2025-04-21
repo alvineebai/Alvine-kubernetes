@@ -153,7 +153,7 @@ spec:
       volumes:
       - name: efs-volume
         persistentVolumeClaim:
-          claimName: efs-claim
+          claimName: efs-pvc
 ---
 ### service def
 apiVersion: v1
