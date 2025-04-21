@@ -38,7 +38,7 @@ EFS_ID=$(aws efs create-file-system --creation-token "eks-efs" --tags "Key=Name,
 ```bash
 # Create mount targets in each subnet
 for subnet in $SUBNET_IDS; do
-  aws efs create-mount-target --file-system-id $EFS_ID --subnet-id $subnet --security-groups $SG_ID --region us-east-2
+  aws efs create-mount-target --file-system-id $EFS_ID --subnet-id $subnet --security-groups $SG_ID --region us-east-1
 done
 ```
 Now that the filesystem is created with the mount targets, let's install the EFS CSI driver.
@@ -66,7 +66,7 @@ eksctl create iamserviceaccount \
   --namespace kube-system \
   --cluster your-cluster-name \
   --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy \
-  --region your region
+  --region us-east-1 \
   --approve
 ```
 
