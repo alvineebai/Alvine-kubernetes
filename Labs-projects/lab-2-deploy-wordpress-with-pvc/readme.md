@@ -16,7 +16,7 @@ Note: This lab can be done on Minikube as well
 **Note:** The cluster used here is the cluster create in AWS with eksctl.
 
 To be able to create persistent volumes for our apps, we need to make sure dynamic provisioning is enabled.
-Check the folder on persistent volumes to do that.(`11-persistent-storage`). Use `EBS` volumes. 
+Check the folder on persistent volumes to do that.(`11-persistent-storage`). Use `EFS` volumes. 
 
 ## Create and apply the YAML files to deploy the app
 ```bash
