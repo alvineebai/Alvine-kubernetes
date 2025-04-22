@@ -48,7 +48,7 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 - Create the policy with the policy file downloaded
 
 ```bash 
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policydocument file://iam_policy.json
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
 ```
 
 3. Create an IAM role and ServiceAccount for the controller: Do not forget to replace ``your-account-id`` with your aws account ID 
