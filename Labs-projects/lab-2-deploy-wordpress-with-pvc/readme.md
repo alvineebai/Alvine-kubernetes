@@ -44,7 +44,7 @@ http://<EXTERNAL-IP>:<PORT>
 **Note:** If you used a service of Type **LoadBalancer**, you just need to use the Loadbalancer name provided.
 
 ### Expected result:
-[](wordpress.png)
+![wordpress](wordpress.png)
 
 ## Clean up
 
