@@ -107,7 +107,7 @@ kubectl get pods
 - **min=2**: The lower limit for the number of pods that can be set by the autoscaler
 - **max=5**: The upper limit for the number of pods that can be set by the autoscaler
 
-**WARNING**: You probably will see <unknown>/50% for 1-2 minutes and then you should be able to see 0%/50%
+**WARNING**: You probably will see <unknown>/20% for 1-2 minutes and then you should be able to see 0%/20%
 
 ## 4. Generate load to trigger the autoscaling
 
@@ -115,6 +115,9 @@ Open another Gitbash terminal run a load generator pod
 
 ```bash
 kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- sh 
+```
+
+```bash
 #Execute a while loop to generate the load
 while true; do wget -q -O - http://nginx-service; done
 ```
@@ -133,7 +136,9 @@ Stop the load generation in the second terminal with CTRL + C and watch the HPA 
 kubectl get pods
 kubectl top pods
 ```
+**Note:** It might take some time before the number of pods comes back to the minimum specified in the hpa.
 
 # Clean Up
 
 Delete all the objects created.
+
