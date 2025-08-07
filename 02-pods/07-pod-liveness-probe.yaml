@@ -36,13 +36,14 @@ spec:
 # verify
 # kubectl get pods - the pod should be running
 #
-# check the liveness probe - after 20 seconds, the liveness probes should fails
+# check the liveness probe - after 20 seconds, the liveness probes should fail
 # then kubelet should restart the container
 #
 # kubectl describe pod pod-liveness
 # 
-# run many times to check that the pod is continuously restarted after some time
+# run many times to check that the pod is continuously restarting after some time
 # kubectl get pods
 #
 # delete the pod
+#
 # kubectl delete pod pod-liveness
