@@ -90,11 +90,8 @@ eksctl create cluster --name my-cluster --region us-east-1 --nodegroup-name my-n
 
 ### Update the Kubeconfig
 
-After creating the cluster, you need to update the context in the local Kubeconfig file in order to interact with the cluster.
+After creating the cluster, the local kubeconfig file is automatically upated with your cluster information. No need to update the context, you can start to interact with the cluster.
 
-```bash
-aws eks --region us-east-1 update-kubeconfig --name my-cluster
-```
 Verify that you can access the cluster. You should see nodes READY.
 ```bash
 kubectl get nodes
@@ -128,3 +125,4 @@ After deleting the cluster, you can verify in Cloudformation that all the stacks
 🚨 **WARNING:** We will not use this in class. This is just for your information.
 
 The following repository has a terraform code to launch EKS cluster: [Repo link here](https://github.com/utrains/provision-eks-cluster-with-terraform.git)
+
