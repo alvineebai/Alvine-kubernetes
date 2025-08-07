@@ -35,13 +35,14 @@ spec:
       restartPolicy: Never
 ```
 
-To run it:
+To run it and test that the job what executed successfully:
 ```bash
 kubectl apply -f job.yaml
 kubectl get jobs
 kubectl get pods
 kubectl logs <pod-name>
 ```
+**Note:** The job and the po associated get deleted 50 seconds after successful execution.
 
 ## Simple CronJob Example
 
@@ -142,3 +143,4 @@ spec:
 3. Check logs with `kubectl logs <pod-name>`
 4. Use `kubectl describe job <name>` if something goes wrong
 5. Remember CronJobs use UTC time
+
