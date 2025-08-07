@@ -48,7 +48,7 @@ kubectl get pod -o wide
 kubectl run app2 --image nginxjdf
 kubectl get pods
 kubectl get pod -o wide
-# you should get an error ErrImagePull
+# you should get an error ErrImagePull or ImagePullBackOff
 kubectl describe pod app2
 kubectl edit pod app2
 # modify the image name to nginx, save and exit the edition page
@@ -271,3 +271,4 @@ Example: Check the files `10-pod-priotity-class.yaml` and `11-pod-with-priority.
 
 - The `10-pod-priotity-class.yaml` file creates two priority classes 
 - The `11-pod-with-priority.yaml` manifest creates two pods from each priority class
+
