@@ -54,9 +54,14 @@ kubectl describe pod <pod-name-here>
 ```bash
 kubectl delete pod <pod-name-here>
 ```
+verify
+```bash
+kubectl get pods
+```
 
 - Delete the replicaset
 ```bash
 kubectl delete rs webserver
 ```
  
+
