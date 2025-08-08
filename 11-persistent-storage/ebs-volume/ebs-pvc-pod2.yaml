@@ -1,0 +1,18 @@
+## Pod that will consume the PVC but will fail to start due to conflict on the ebs volume
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ebs2
+spec:
+  nodeName: # add the nodeName here
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sh", "-c", "echo 'Fail to run!' >> /data/test.txt && sleep 3600" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
