@@ -117,6 +117,63 @@ kubectl exec -it pod-ebs -- cat /data/test.txt
 ```
 If the pod is recreated on the same node, it should still have access to the data.
 
+3. Create a pod on a different node and verify that it does not run and has no access to the volume.
+
+verify the node where the pod got created then delete the pod 
+```bash
+kubectl get pods -o wide
+kubectl delete pod pod-ebs
+```
+Now create a pod `ebs-pvc-pod2.yaml` on a different node using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
+
+```bash
+## Pod that will consume the PVC but will fail to start due to conflict on the ebs volume
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ebs2
+spec:
+  nodeName: # add the nodeName here
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sh", "-c", "cat /data/test.txt || echo 'failed to read'" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
+```
+Run the pod:
+
+```bash
+kubectl apply -f ebs-pvc-pod2.yaml
+kubectl get pods -o wide
+```
+The pod should be stuck at `Pending` or `ContainerCreating` status
+
+Describe the pod to see why it does not run successfully
+```bash
+kubectl describe pod pod-ebs2
+```
+Now, delete the first pod `pod-ebs` and recreate the second pod `pod-ebs2`
+```bash
+kubectl delete pod pod-ebs
+kubectl delete pod pod-ebs2
+kubectl apply -f ebs-pvc-pod2.yaml
+kubectl get pods -o wide
+kubectl describe pod pod-ebs-2
+```
+The pod should still be stuck at `Pending` or `ContainerCreating` status 
+
+
 **Note:** In AWS EKS, **EBS does not support** **RWX(ReadWriteMany)**. It is limited to **RWO(ReadWriteOnce)** It means the volume created by ebs can only be mounted to one node. 
 
 To allow many nodes to mount a volume, you need to use another service like **Amazon EFS** that support **RWX**.
+
+#### Clean up
+
+Delete all the resources created.
+
