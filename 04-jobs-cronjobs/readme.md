@@ -42,7 +42,8 @@ kubectl get jobs
 kubectl get pods
 kubectl logs <pod-name>
 ```
-**Note:** The job and the po associated get deleted 50 seconds after successful execution.
+The logs should disply the message "**Hello from my first Job!**"
+**Note:** The job and the pod associated get deleted 50 seconds after successful execution.
 
 ## Simple CronJob Example
 
@@ -69,6 +70,13 @@ To check it:
 kubectl get cronjobs
 kubectl get jobs --watch
 ```
+Note: A new job will be created every minute to perform the task. Do a CTRL C to stop the command.
+
+```bash
+kubectl get pods
+kubectl get pods --watch
+```
+Note: Do a CTRL C to stop the command
 
 ## Key Things to Know
 
@@ -84,6 +92,8 @@ kubectl get jobs --watch
    ```bash
    kubectl get jobs
    kubectl get cronjobs
+   kubectl describe job <name>
+   kubectl describe cronjob <name>
    kubectl delete job <name>
    kubectl delete cronjob <name>
    ```
@@ -101,7 +111,7 @@ kubectl get jobs --watch
 
 ## Common Examples
 
-1. **Database Backup Job**:
+1. **Database Backup Job**: This is just an example. Don't run it
 ```yaml
 apiVersion: batch/v1
 kind: Job
@@ -117,7 +127,7 @@ spec:
       restartPolicy: OnFailure
 ```
 
-2. **Daily Cleanup CronJob**:
+2. **Daily Cleanup CronJob**: This is just an example. Don't run it
 ```yaml
 apiVersion: batch/v1
 kind: CronJob
@@ -143,4 +153,5 @@ spec:
 3. Check logs with `kubectl logs <pod-name>`
 4. Use `kubectl describe job <name>` if something goes wrong
 5. Remember CronJobs use UTC time
+
 
