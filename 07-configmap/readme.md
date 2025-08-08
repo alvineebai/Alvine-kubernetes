@@ -150,6 +150,8 @@ ls /config
 cat /config/mydata
 # you should see hello_world, the value that was defined for the variable mydata in the configmap
 ```
+Exit to get out of the Pod.
 
 
 You can learn more on configmaps using the kubernetes official documentation
+
