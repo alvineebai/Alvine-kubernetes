@@ -36,6 +36,8 @@ kubectl get cm
 kubectl describe cm my-config2
 kubectl delete cm my-config2
 ```
+**WARNING:** if you are on Windows, you might see `\r` appear at the end of the lines when you describe the configmap. It is a common issue that can be solved by converting the file to use Unix line endings (\n) before creating the ConfigMap. You can use the command `dos2unix filename` to convert.
+
 - Using a manifest
 ```bash
 vi 01-my-configmap.yaml
@@ -132,6 +134,7 @@ spec:
 kubectl create -f 03-pod-configmap-volume.yaml
 kubectl get cm
 kubectl get pods
+kubectl describe pod pod-configmap-volume
 
 #If you are not on a Linux server, the following commands might throw a No such file or directory error.
 #Just make sure you understand the concept.
@@ -140,5 +143,13 @@ kubectl exec -it pod-configmap-volume -- ls /config
 
 kubectl exec -it pod-configmap-volume -- cat /config/mydata
 ```
+If you are in gitbash on Windows, you can check the content of the /config with:
+```bash
+kubectl exec -it pod-configmap-volume -- sh
+ls /config
+cat /config/mydata
+# you should see hello_world, the value that was defined for the variable mydata in the configmap
+```
+
 
 You can learn more on configmaps using the kubernetes official documentation
