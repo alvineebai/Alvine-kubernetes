@@ -137,7 +137,7 @@ spec:
   containers:
   - name: app
     image: busybox
-    command: [ "sh", "-c", "cat /data/test.txt || echo 'failed to read'" ]
+    command: [ "sh", "-c", "echo 'Fail to run!' >> /data/test.txt && sleep 3600" ]
     volumeMounts:
     - mountPath: "/data"
       name: storage
@@ -168,6 +168,40 @@ kubectl describe pod pod-ebs-2
 ```
 The pod should still be stuck at `Pending` or `ContainerCreating` status 
 
+4. Create a ne pod on the first node
+
+Now create a pod `ebs-pvc-pod3.yaml` on the first node using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
+
+```bash
+## Pod that will consume the PVC and will run because it is placed on the node where the volume is attached
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ebs3
+spec:
+  nodeName: # add the nodeName of the first node here
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sh", "-c", "echo 'Hello world!' >> /data/test.txt && sleep 3600" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
+```
+Run the pod:
+
+```bash
+kubectl apply -f ebs-pvc-pod2.yaml
+kubectl get pods -o wide
+# the pod should be running
+kubectl exec -it pod-ebs3 -- cat /data/test.txt
+# It should display two lines: Hello from EBS! and Hello World!
+```
+
 
 **Note:** In AWS EKS, **EBS does not support** **RWX(ReadWriteMany)**. It is limited to **RWO(ReadWriteOnce)** It means the volume created by ebs can only be mounted to one node. 
 
@@ -176,4 +210,5 @@ To allow many nodes to mount a volume, you need to use another service like **Am
 #### Clean up
 
 Delete all the resources created.
+
 
