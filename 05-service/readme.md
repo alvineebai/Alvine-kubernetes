@@ -150,7 +150,7 @@ spec:
 - Accessible from: **Outside the cluster via <Node-IP>:<port>**
 - Load Balancer: No
 - If the nodeport number is not specified, a random number (30000 - 32767) will be attributed
-- If you are working on a cluster in the cloud, remember to open the ports on the nodes to be able to access the service from a browser.
+- If you are working on a cluster in the cloud, remember to open the ports on the nodes security group to be able to access the service from a browser.
 
 Example. file `04-service-nodeport.yaml`
 ```yaml
@@ -175,6 +175,7 @@ spec:
 - use case: Exposes service externally using a cloud provider's load balancer
 - Accessible from: **Internet (External IP)**
 - Load Balancer: yes
+- If you are working on a cluster in the cloud, remember to open the ports on the nodes security group to be able to access the service from a browser.
 
 Example: file `05-service-loadbalancer.yaml`
 
@@ -193,12 +194,15 @@ spec:
       targetPort: 80
 ```
 
+Note: If the ``port`` value is different from ``80`` (default for the LoadBalancer service type), you need open the port in the nodes security group and also specify the port when accessing the service in your browser ``<LoadBalancer>:<port>``
+
 #### **ExternalName**
 - use case: Maps a service to an external DNS name
 - Accessible from: **Outside the cluster**
 - Load Balancer: No
+- It’s purely for DNS redirection. No load balancing or port forwarding is involved.
 
-Example: file `06-service-externalname.yaml`
+Example: file `06-service-externalname.yaml`. This is just an example, you can make more research on that if necessary.
 
 ```yaml
 apiVersion: v1
@@ -210,6 +214,7 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
