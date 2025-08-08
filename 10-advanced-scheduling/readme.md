@@ -151,13 +151,13 @@ spec:
 Apply and verify that the pod is placed on the node with label `disktype=ssd`
 
 ```bash
-kubectl apply -f pod-node-affinity-preferred.yaml
+kubectl apply -f pod-node-affinity-required.yaml
 kubectl get pods -o wide
 # unlabel the node to see if the ignoredDuringExecution works well
 kubectl label node node01 disktype-
 kubectl get pods
 # the pod should continue running
-kubectl delete -f pod-node-affinity-preferred.yaml
+kubectl delete -f pod-node-affinity-required.yaml
 # relabel the node to continue practice
 kubectl label node node01 disktype=ssd
 ```
@@ -470,4 +470,5 @@ kubectl delete pod webserver1
 kubectl delete pod webserver2
 kubectl delete pod webserver3
 kubectl delete pod webserver4
+
 ```
