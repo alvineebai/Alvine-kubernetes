@@ -150,6 +150,7 @@ spec:
 - Accessible from: **Outside the cluster via <Node-IP>:<port>**
 - Load Balancer: No
 - If the nodeport number is not specified, a random number (30000 - 32767) will be attributed
+- If you are working on a cluster in the cloud, remember to open the ports on the nodes to be able to access the service from a browser.
 
 Example. file `04-service-nodeport.yaml`
 ```yaml
@@ -209,5 +210,6 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
