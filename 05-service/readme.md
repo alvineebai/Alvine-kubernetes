@@ -1,6 +1,6 @@
 ## The Service
 
-Since pods are ephemeral (can be created and destroyed at any moment), their IP addresses cannot be relied on for communication, that’s where the service resource comes in the picture. Service provides a single IP address and port for a set of Pods, it can load-balance across them and do health checks.
+Since **pods are ephemeral** (can be created and destroyed at any moment), their IP addresses cannot be relied on for communication, that’s where the service resource comes in the picture. Service provides a single **IP address and port** for a set of Pods, it can **load-balance** across them and do **health checks**.
 
 **Note**: This practice can be done on **Killercoda kubernetes playgrounds**
 
@@ -9,7 +9,7 @@ You can expose a pod or a deployment using a service maifest file or using the `
 
 #### Create a service using the manifest
 
-To define a pod and expose it using a service, the label of the pod must match the selector of the service.
+To define a pod and expose it using a service, the **label of the pod** must match the **selector of the service**.
 
 Example: check the `01-service-pod-def.yaml` and `02-service-deployment-def.yaml` files
 
@@ -46,15 +46,18 @@ Apply the file to the cluster and verify with the commands:
 ```bash
 kubectl apply -f 01-service-pod-def.yaml
 kubectl get pods
+#
 # get the services
 kubectl get svc
+#
 # describe the service
 kubectl describe service utrains-service
+#
 # delete the pod and the service
 kubectl delete -f 01-service-pod-def.yaml
 
 ```
-Note: To expose the above pod, you could also run the command:
+Note: To expose the above pod, you could also run the command. **But it is a best practice to use manifest files instead of running such commands directly.**
 ```bash
 kubectl expose pod utrains-pod --port=80 --target-port=80
 ```
@@ -84,7 +87,7 @@ spec:
         ports:
         - containerPort: 80
 ---
-apiVersion: apps/v1
+apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
@@ -103,16 +106,19 @@ Apply the file to the cluster and verify with the commands:
 ```bash
 kubectl apply -f 02-service-deployment-def.yaml
 kubectl get pods
+#
 # get the services
 kubectl get svc
+#
 # describe the service
 kubectl describe service nginx-service
+#
 # delete the pod and the service
 kubectl delete -f 02-service-deployment-def.yaml
 
 ```
 
-Note: To expose the above deployment, you could also run the command:
+Note: To expose the above deployment, you could also run the command. **But it is a best practice to use manifest files instead of running such commands directly.**
 ```bash
 kubectl expose deployment nginx-deployment --port=80 --target-port=80
 ```
@@ -120,7 +126,7 @@ kubectl expose deployment nginx-deployment --port=80 --target-port=80
 
 #### **ClusterIP (default)**
 - use case: Internal communication between Pods
-- Accessible from: Inside the cluster only
+- Accessible from: **Inside the cluster only**
 - Load Balancer: No
 - If the service type is not specified, it will be created as a ClusterIP service by default.
 
@@ -141,7 +147,7 @@ spec:
 
 #### **NodePort**
 - use case: Exposes a service on a static port on each node (nodeport)
-- Accessible from: Outside the cluster via <Node-IP>:<port>
+- Accessible from: **Outside the cluster via <Node-IP>:<port>**
 - Load Balancer: No
 - If the nodeport number is not specified, a random number (30000 - 32767) will be attributed
 
@@ -166,7 +172,7 @@ spec:
 
 #### **Loadbalancer**
 - use case: Exposes service externally using a cloud provider's load balancer
-- Accessible from: Internet (External IP)
+- Accessible from: **Internet (External IP)**
 - Load Balancer: yes
 
 Example: file `05-service-loadbalancer.yaml`
@@ -188,7 +194,7 @@ spec:
 
 #### **ExternalName**
 - use case: Maps a service to an external DNS name
-- Accessible from: Outside the cluster
+- Accessible from: **Outside the cluster**
 - Load Balancer: No
 
 Example: file `06-service-externalname.yaml`
@@ -203,4 +209,5 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
