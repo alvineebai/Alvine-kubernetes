@@ -1,0 +1,18 @@
+## Pod that will consume the PVC and will run because it is placed on the node where the volume is attached
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-ebs3
+spec:
+  nodeName: # add the nodeName of the first node here
+  containers:
+  - name: app
+    image: busybox
+    command: [ "sh", "-c", "echo 'Hello world!' >> /data/test.txt && sleep 3600" ]
+    volumeMounts:
+    - mountPath: "/data"
+      name: storage
+  volumes:
+  - name: storage
+    persistentVolumeClaim:
+      claimName: ebs-pvc
