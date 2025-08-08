@@ -118,4 +118,16 @@ kubectl create -f my-secret-pod-volume.yaml
 kubectl exec my-secret-pod-volume -- cat /etc/config/username
 kubectl exec my-secret-pod-volume -- cat /etc/config/password
 ```
+
+Note: If you are using Gitbash in Windows, run the following to check
+
+```bash
+kubectl exec -it my-secret-pod-volume -- sh
+cat /etc/config/username
+cat /etc/config/password
+```
+Exit from the pod
+
+Delete all the resources created
+
 For more guidelines to manage and improve the security of your Secrets, refer to Good practices for Kubernetes Secrets in the official documentation.
