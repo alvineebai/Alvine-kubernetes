@@ -29,16 +29,18 @@ SG_ID=$(aws ec2 create-security-group --group-name "EFS-SG" --description "EFS f
 ```bash
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 2049 --source-group $EKS_NODE_SG --region <your region>
 ```
+**WARNING:** If you encounter an error like **(InvalidGroupId.Malformed) when calling the AuthorizeSecurityGroupIngress operation: Invalid id: xxxxx**, replace the variable $EKS_NODE_SG directly by the value obtained when you run `echo $EKS_NODE_SG`. The command should then be something like: `aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 2049 --source-group sg-03f2e225be89cbxxx --region <your region>`
+
 4. Create the EFS filesystem 
 ```bash
 # Create EFS filesystem
 EFS_ID=$(aws efs create-file-system --creation-token "eks-efs" --tags "Key=Name,Value=EKS-EFS" --output text --query "FileSystemId")
 ```
-4. Create mount targets for the filesystem in each subnet of your VPC
+4. Create mount targets for the filesystem in each subnet of your VPC. Replace ``your region`` with the region you are currently using.
 ```bash
 # Create mount targets in each subnet
 for subnet in $SUBNET_IDS; do
-  aws efs create-mount-target --file-system-id $EFS_ID --subnet-id $subnet --security-groups $SG_ID --region us-east-1
+  aws efs create-mount-target --file-system-id $EFS_ID --subnet-id $subnet --security-groups $SG_ID --region <your region>
 done
 ```
 Now that the filesystem is created with the mount targets, let's install the EFS CSI driver.
@@ -213,3 +215,4 @@ Delele your cluster when done practicing.
 - Restrict IAM permissions to specific EFS resources
 
 This provides a shared, persistent filesystem accessible by all pods simultaneously.
+
