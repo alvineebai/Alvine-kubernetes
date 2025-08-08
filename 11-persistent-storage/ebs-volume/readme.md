@@ -119,12 +119,11 @@ If the pod is recreated on the same node, it should still have access to the dat
 
 3. Create a pod on a different node and verify that it does not run and has no access to the volume.
 
-verify the node where the pod got created then delete the pod 
+verify the node where the first pod got created. (Let's call it node01)
 ```bash
 kubectl get pods -o wide
-kubectl delete pod pod-ebs
 ```
-Now create a pod `ebs-pvc-pod2.yaml` on a different node using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
+Now create a pod `ebs-pvc-pod2.yaml` on a different node (node02) using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
 
 ```bash
 ## Pod that will consume the PVC but will fail to start due to conflict on the ebs volume
@@ -152,13 +151,13 @@ Run the pod:
 kubectl apply -f ebs-pvc-pod2.yaml
 kubectl get pods -o wide
 ```
-The pod should be stuck at `Pending` or `ContainerCreating` status
+The pod status should be `Pending` or `ContainerCreating`
 
 Describe the pod to see why it does not run successfully
 ```bash
 kubectl describe pod pod-ebs2
 ```
-Now, delete the first pod `pod-ebs` and recreate the second pod `pod-ebs2`
+Now, let#s try to delete the first pod `pod-ebs` on node02 then recreate this second pod `pod-ebs2` to see if it solves the problem.
 ```bash
 kubectl delete pod pod-ebs
 kubectl delete pod pod-ebs2
@@ -166,11 +165,13 @@ kubectl apply -f ebs-pvc-pod2.yaml
 kubectl get pods -o wide
 kubectl describe pod pod-ebs-2
 ```
-The pod should still be stuck at `Pending` or `ContainerCreating` status 
+The pod status should still `Pending` or `ContainerCreating`.
 
-4. Create a ne pod on the first node
+**Conclusion:** A pod created on a different node cannot consume the PVC nor have access to data stored in that ebs volume.
 
-Now create a pod `ebs-pvc-pod3.yaml` on the first node using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
+4. Create a new pod on the first node (node01)
+
+Now create a pod `ebs-pvc-pod3.yaml` on the first node (node01) using the ``nodeName`` field to force the scheduler to place this pod on the selected node.
 
 ```bash
 ## Pod that will consume the PVC and will run because it is placed on the node where the volume is attached
@@ -202,13 +203,16 @@ kubectl exec -it pod-ebs3 -- cat /data/test.txt
 # It should display two lines: Hello from EBS! and Hello World!
 ```
 
+**Conclusion:** The volume is only accessible to pods that are running on node01 and that consume the PVC.
 
-**Note:** In AWS EKS, **EBS does not support** **RWX(ReadWriteMany)**. It is limited to **RWO(ReadWriteOnce)** It means the volume created by ebs can only be mounted to one node. 
+
+In AWS EKS, **EBS does not support** **RWX(ReadWriteMany)**. It is limited to **RWO(ReadWriteOnce)** It means the volume created by ebs can only be mounted to one node. 
 
 To allow many nodes to mount a volume, you need to use another service like **Amazon EFS** that support **RWX**.
 
 #### Clean up
 
 Delete all the resources created.
+
 
 
