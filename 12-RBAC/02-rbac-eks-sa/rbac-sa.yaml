@@ -13,7 +13,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["pods", "services"]
-    verbs: ["create", "list",]
+    verbs: ["create", "list", "delete"]
     #  - apiGroups: ["apps"]
     #    resources: ["deployment"]
     #    verbs: ["create", "get", "update", "list", "delete", "watch", "patch"]
@@ -52,4 +52,5 @@ secrets:
 #    kubernetes.io/service-account.name: dev-sa
 #type: kubernetes.io/service-account-token
 #kubectl create token dev-sa -n dev --duration=24h    # this will create a token.
+
 
