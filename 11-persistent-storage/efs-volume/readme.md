@@ -34,7 +34,7 @@ aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port
 4. Create the EFS filesystem 
 ```bash
 # Create EFS filesystem
-EFS_ID=$(aws efs create-file-system --creation-token "eks-efs" --tags "Key=Name,Value=EKS-EFS" --output text --query "FileSystemId")
+EFS_ID=$(aws efs create-file-system --creation-token "eks-efs" --tags "Key=Name,Value=EKS-EFS" --output text --query "FileSystemId" --region <your-region>)
 ```
 4. Create mount targets for the filesystem in each subnet of your VPC. Replace ``your region`` with the region you are currently using.
 ```bash
@@ -215,4 +215,5 @@ Delele your cluster when done practicing.
 - Restrict IAM permissions to specific EFS resources
 
 This provides a shared, persistent filesystem accessible by all pods simultaneously.
+
 
