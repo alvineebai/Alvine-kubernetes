@@ -27,8 +27,6 @@ To set up RBAC, we need to identify the who, the what and the rules:
 
 We have a new user called Paul in dev team and we need to give him access to the cluster resources. As an administrator, setup RBAC using a service account to allow Paul to list and create pods and services in the dev namespace.
 
-Refer to the folder `rback-eks-sa` to resolve the exercise.
-
 1. Create the namespace, the role the service account and the role binding `rbac-sa.yaml`
 
 ```yaml
@@ -81,7 +79,8 @@ Apply this file to the cluster to create the resources
 kubectl apply -f rbac-sa.yaml
 ```
 2. Test
-Here we will do a simple test to verify that users that will be associated with this service account will only have access to defined resources.
+
+Here we will do a simple test to verify that users that will be associated with this service account will only have access to the defined resources.
 
 ```bash
 kubectl get pods -n dev --as=system:serviceaccount:dev:dev-sa
@@ -96,9 +95,10 @@ Expected result: You should have a **Forbidden error**.
 Test with other resources like services, deploiements etc
 
 3. Recommendation
+
 In the company, to create access for a new user, a kubeconfig file like `config-template.yaml` will be generated and securely sent to the user. 
 
-The user will add it to his local kubeconfig file in `.kube/` and update the kubeconfig with the command
+The user will add it to his local kubeconfig file in `.kube/` and update the kubeconfig with the command before starting to interact with the cluster.
 
 ```bash
 aws eks update-kubeconfig --region region-code --name cluster-name
