@@ -97,6 +97,12 @@ Verify that you can access the cluster. You should see nodes READY.
 kubectl get nodes
 ```
 
+Note: If the previous throws and error, then update the kubeconfig with the command and retry:
+
+```bash
+aws eks update-kubeconfig --region us-east-1 --name my-cluster
+```
+
 ### Basic commands
 | **Command**                                      | **Description**                                                                 |
 |--------------------------------------------------|---------------------------------------------------------------------------------|
