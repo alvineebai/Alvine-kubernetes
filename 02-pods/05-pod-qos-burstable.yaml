@@ -6,7 +6,7 @@ metadata:
   name: qos-burstable
   namespace: qos-example
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -38,4 +38,5 @@ spec:
 # Check the "QoS Class" value. 
 #
 # delete pod
+
 # kubectl delete pod/qos-burstable -n qos-example
