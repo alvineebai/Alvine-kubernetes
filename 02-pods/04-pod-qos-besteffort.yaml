@@ -6,7 +6,7 @@ metadata:
   name: qos-besteffort
   namespace: qos-example
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -33,4 +33,5 @@ spec:
 #
 # delete pod
 # kubectl delete pod/qos-besteffort -n qos-example
+
 #
