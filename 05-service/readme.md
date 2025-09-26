@@ -18,9 +18,9 @@ Example: check the `01-service-pod-def.yaml` and `02-service-deployment-def.yaml
 apiVersion: v1
 kind: Pod
 metadata:
-  name: utrains-pod
+  name: itpath360-pod
   labels:
-    name: utrains
+    name: itpath360
 spec:
   containers:
   - name: nginx
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: utrains-service
+  name: itpath360-service
 spec:
   selector:
-    name: utrains
+    name: itpath360
   ports:
-  - name: utrains-service-port
+  - name: itpath360-service-port
     protocol: TCP
     port: 80
     targetPort: 80
@@ -135,11 +135,11 @@ Example: file `03-service-clusterIP.yaml`
 apiVersion: v1
 kind: Service
 metadata:
-  name: utrains-service
+  name: itpath360-service
 spec:
   selector:
   type: ClusterIP
-    app: utrains
+    app: itpath360
   ports:
     - protocol: TCP
       port: 8080
@@ -158,11 +158,11 @@ Example. file `04-service-nodeport.yaml`
 apiVersion: v1
 kind: Service
 metadata:
-  name: utrains-service
+  name: itpath360-service
 spec:
   type: NodePort
   selector:
-    name: utrains
+    name: itpath360
   ports:
       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
     - port: 80
@@ -184,11 +184,11 @@ Example: file `05-service-loadbalancer.yaml`
 apiVersion: v1
 kind: Service
 metadata:
-  name: utrains-service
+  name: itpath360-service
 spec:
   type: LoadBalancer
   selector:
-    name: utrains
+    name: itpath360
   ports:
       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
     - port: 80
@@ -209,12 +209,13 @@ Example: file `06-service-externalname.yaml`. This is just an example, you can m
 apiVersion: v1
 kind: Service
 metadata:
-  name: utrains-service
+  name: itpath360-service
   namespace: dev
 spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
