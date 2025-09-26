@@ -6,7 +6,7 @@ metadata:
   name: qos-guaranteed
   namespace: qos-example
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -40,4 +40,5 @@ spec:
 #
 # delete pod
 # kubectl delete pod/qos-guaranteed -n qos-example
+
 #
