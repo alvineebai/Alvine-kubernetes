@@ -3,13 +3,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: utrains
+  name: itpath360
   namespace: dev
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
-    - name: utrains-app
+    - name: itpath360-app
       image: httpd
       ports:
         - containerPort: 80
@@ -19,5 +19,6 @@ spec:
 # Here we run a pod in a specific namespace exposing a port (80) using TCP protocol
 # kubectl create -f 02-pod-with-port.yaml
 # kubectl get pods -n dev
-# kubectl describe pod utrains -n dev
-# kubectl delete pod utrains -n dev
+# kubectl describe pod itpath360 -n dev
+
+# kubectl delete pod itpath360 -n dev
