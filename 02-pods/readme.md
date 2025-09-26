@@ -17,10 +17,10 @@ To run a pod in the cluster, you can use either a manifest or the use `kubectl r
 apiVersion: v1
 kind: Pod
 metadata:
- name: utrains
+ name: itpath360
 spec:
  containers:
-   - name: utrains-app
+   - name: itpath360-app
      image: httpd
 ```
 
@@ -86,13 +86,13 @@ The content of the manifest
 apiVersion: v1
 kind: Pod
 metadata:
- name: utrains
+ name: itpath360
  namespace: dev
  labels:
-  app: utrains
+  app: itpath360
 spec:
  containers:
-   - name: utrains-app
+   - name: itpath360-app
      image: httpd
 ```
 
@@ -105,7 +105,7 @@ kubectl get pods -n dev
 Delete the pod and the namespace.
 
 ```bash
-kubectl delete pod utrains -n dev
+kubectl delete pod itpath360 -n dev
 kubectl delete ns dev
 ```
 
@@ -116,13 +116,13 @@ Check the `03-pod-with-port.yaml` manifest file:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: utrains
+  name: itpath360
   namespace: dev
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
-    - name: utrains-app
+    - name: itpath360-app
       image: httpd
       ports:
         - containerPort: 80
@@ -138,7 +138,7 @@ kubectl get pods -n dev
 Delete the pod and the namespace.
 
 ```bash
-kubectl delete pod utrains -n dev
+kubectl delete pod itpath360 -n dev
 kubectl delete ns dev
 ```
 
@@ -155,7 +155,7 @@ kind: Pod
 metadata:
   name: qos-besteffort
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -185,7 +185,7 @@ kind: Pod
 metadata:
   name: qos-burstable
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -221,7 +221,7 @@ kind: Pod
 metadata:
   name: qos-guaranteed
   labels:
-   app: utrains
+   app: itpath360
 spec:
   containers:
     - name: nginx
@@ -271,4 +271,5 @@ Example: Check the files `10-pod-priotity-class.yaml` and `11-pod-with-priority.
 
 - The `10-pod-priotity-class.yaml` file creates two priority classes 
 - The `11-pod-with-priority.yaml` manifest creates two pods from each priority class
+
 
