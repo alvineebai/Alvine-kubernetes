@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
- name: utrains
+ name: itpath360
 spec:
  containers:
-   - name: utrains-app
+   - name: itpath360-app
      image: httpd
 #
 #
@@ -21,4 +21,5 @@ spec:
 # kubectl get pods
 #
 # delete pod
+
 # kubectl delete pods utrains
