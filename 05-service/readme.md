@@ -65,7 +65,7 @@ kubectl expose pod itpath360-pod --port=80 --target-port=80
 - Deployment and service definition `02-service-deployment-def.yaml`. The label defined in the pod template must match the selector defined in the service. Create the file with the following content:
 
 ```yaml
-apiVersion: apps/v1
+apiVersion: v1
 kind: Deployment
 metadata:
   name: nginx-deployment
@@ -215,6 +215,7 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
