@@ -65,37 +65,37 @@ kubectl expose pod itpath360-pod --port=80 --target-port=80
 - Deployment and service definition `02-service-deployment-def.yaml`. The label defined in the pod template must match the selector defined in the service. Create the file with the following content:
 
 ```yaml
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
   labels:
-    app: nginx
+    app: python
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: nginx
+      app: python
   template:
     metadata:
       labels:
-        app: nginx
+        app: python
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
+        image: kserge2001/pod-host
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: python-service
   labels:
-    app: nginx
+    app: python
 spec:
   selector:
-      app: nginx
+      app: python
   ports:
     - protocol: TCP
       port: 8080
@@ -110,9 +110,14 @@ kubectl get pods
 # get the services
 kubectl get svc
 #
+# Let us check the funstionnality of the load balancer service
+curl <service-IP-address>:8080
 # describe the service
 kubectl describe service nginx-service
 #
+# let us delete 1 pod and watch the sel-healing process
+kubectl delete pod <pod-name>
+
 # delete the pod and the service
 kubectl delete -f 02-service-deployment-def.yaml
 
@@ -215,6 +220,7 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
