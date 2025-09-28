@@ -111,10 +111,16 @@ kubectl get pods
 kubectl get svc
 #
 # Let us check the funstionnality of the load balancer service
-curl <service-IP-address>:8080
+curl <service-IP-address>:8080   run this several time and confirm traffic is being distibuted in different port
 # describe the service
 kubectl describe service nginx-service
 #
+# Now let us assume we want to troubleshoot a pod inside the cluster and we need to access it
+k exec -it <pod-name> -- bash
+cat /etc/os-release
+ls
+cat app.py
+exit
 # let us delete 1 pod and watch the sel-healing process
 kubectl delete pod <pod-name>
 
@@ -220,6 +226,7 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
