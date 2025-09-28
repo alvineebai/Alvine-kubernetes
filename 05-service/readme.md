@@ -51,7 +51,7 @@ kubectl get pods
 kubectl get svc
 #
 # describe the service
-kubectl describe service utrains-service
+kubectl describe service itpath360-service
 #
 # delete the pod and the service
 kubectl delete -f 01-service-pod-def.yaml
@@ -59,7 +59,7 @@ kubectl delete -f 01-service-pod-def.yaml
 ```
 Note: To expose the above pod, you could also run the command. **But it is a best practice to use manifest files instead of running such commands directly.**
 ```bash
-kubectl expose pod utrains-pod --port=80 --target-port=80
+kubectl expose pod itpath360-pod --port=80 --target-port=80
 ```
 
 - Deployment and service definition `02-service-deployment-def.yaml`. The label defined in the pod template must match the selector defined in the service. Create the file with the following content:
@@ -215,6 +215,7 @@ spec:
   type: ExternalName
   externalName: my.service.example.com
 ```
+
 
 
 
