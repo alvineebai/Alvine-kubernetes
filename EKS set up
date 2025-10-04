@@ -22,10 +22,10 @@ Create New Role using IAM service ( Select Usecase - ec2 )
 
 Add below permissions for the role
 
-Administrator - access
+Administrator-access
 Enter Role Name (eksroleec2)
 
-Attach created role to EKS Management Host (Select EC2 => Click on Security => Modify IAM Role => attach IAM role we have created)
+Attach created role to EKS Management Host (Select EC2 => Actions => Click on Security => Modify IAM Role => attach IAM role we have created => Update IAM role)
 
 
 Step - 3 : Create EKS Cluster using eksctl
