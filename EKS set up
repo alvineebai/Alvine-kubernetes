@@ -35,16 +35,100 @@ eksctl create cluster --name cluster-name
 --region region-name
 --node-type instance-type
 --nodes-min 2
---nodes-max 2 \ --zones ,
+--nodes-max 2 \ --zones 
 
 N. Virgina:
-eksctl create cluster --name itpath360-cluster4 --region us-east-1 --node-type t2.medium  --zones us-east-1a,us-east-1b
+eksctl create cluster --name itpath360 --region us-east-1 --node-type t2.medium  --zones us-east-1a,us-east-1b
 
-Note: Cluster creation will take 5 to 10 mins of time (we have to wait). After cluster created we can check nodes using below command.
- kubectl get nodes  
+Note: Cluster creation will take 5 to 10 mins of time (we have to wait). After cluster created we can check nodes & pods using below command.
+kubectl get nodes  
+kubectl get pods
 Note: We should be able to see EKS cluster nodes here.
-We are done with our Setup
+
+Your EKS worker nodes security group must allow inbound port 80 from the internet.
+Find the security group attached to the load balancer in the AWS console.
+Make sure it has a rule:
+Inbound: TCP 80 from 0.0.0.0/0
+
+
+Now let us use the YAML configuration file below to deploy and browse a simple index.html web application on our EKS cluster
+touch eks-html-app.yml
+vi eks-html-app.yml           #### copy and paste the code below
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: html-config
+  namespace: default
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>EKS HTML App</title>
+    </head>
+    <body style="font-family: Arial; text-align: center; margin-top: 50px;">
+      <h1>Welcome to My EKS Web App!</h1>
+      <p>This application is running on an EKS cluster with 2 nodes.</p>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-html-deployment
+  labels:
+    app: eks-html
+spec:
+  replicas: 2                     # 2 Pods (can run across your 2 nodes)
+  selector:
+    matchLabels:
+      app: eks-html
+  template:
+    metadata:
+      labels:
+        app: eks-html
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-volume
+        configMap:
+          name: html-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eks-html-service
+spec:
+  type: LoadBalancer               # Expose app publicly via ELB
+  selector:
+    app: eks-html
+  ports:
+  - port: 80
+    targetPort: 80
+
+
+kubectl apply -f eks-html-app.yml
+kubectl get pods
+kubectl get svc
+
+Copy the EXTERNAL-IP from the kubectl get svc output.
+Open it in your browser:
+http://<EXTERNAL-IP>
+
+✅ Result
+You’ll see:
+“Welcome to My EKS Web App!
+"This application is running on an EKS cluster with 2 nodes.”
 
 
 Step - 4 : After your practise, delete Cluster and other resources we have used in AWS Cloud to avoid billing
-eksctl delete cluster --name itpath360-cluster4 --region ap-south-1
+eksctl delete cluster --name itpath360 --region us-east-1
